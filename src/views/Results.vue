@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     Final score
     <p>{{ $route.params.numberOfCorrectGuesses }} correct out of {{ $route.params.numberOfQuestions }}</p>
   </div>
@@ -14,6 +14,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.container {
+  text-align: center;
+}
 
 </style>

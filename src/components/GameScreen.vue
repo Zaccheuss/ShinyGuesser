@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <h1>Find the Shiny Pokemon</h1>
     <img
       v-for="pokemon in pokeArray"
@@ -81,5 +81,10 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+
+.container {
+  text-align: center;
+}
+
 </style>
