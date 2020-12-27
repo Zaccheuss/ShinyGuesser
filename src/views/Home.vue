@@ -1,26 +1,15 @@
 <template>
   <div class="home">
     <div class="button-container">
-      <router-link :to="{ name: 'Game' }">
+      <router-link :to="{ name: 'Game', params: {regions: regions}}">
         <b-button type="is-primary">Start Game</b-button>
       </router-link>
     </div>
     <section id="options">
-      <div class="field">
-        <b-checkbox>Kanto</b-checkbox>
+      <div class="field" v-for="region in regions" :key="region.name"> 
+        <b-checkbox v-model="region.isActive">{{ region.name }}</b-checkbox>
       </div>
-      <div class="field">
-        <b-checkbox>Johto</b-checkbox>
-      </div>
-      <div class="field">
-        <b-checkbox>Hoenn</b-checkbox>
-      </div>
-      <div class="field">
-        <b-checkbox>Sinnoh</b-checkbox>
-      </div>
-      <div class="field">
-        <b-checkbox>Unova</b-checkbox>
-      </div>
+
     </section>
   </div>
 </template>
@@ -28,6 +17,61 @@
 <script>
 export default {
   name: "Home",
+  data() {
+    return {
+      // ranges are inclusive, both sides
+      regions: [
+        {
+          name: 'Kanto',
+          isActive: true,
+          games: ['Red', 'Blue'],
+          numberRange: [1, 151]
+        },
+        {
+          name: 'Johto',
+          isActive: false,
+          games: ['Gold', 'Silver'],
+          numberRange: [152, 251]
+        },
+        {
+          name: 'Hoenn',
+          isActive: false,
+          games: ['Ruby', 'Sapphire'],
+          numberRange: [252, 386]
+        },
+        {
+          name: 'Sinnoh',
+          isActive: false,
+          games: ['Diamond', 'Pearl'],
+          numberRange: [387, 493]
+        },
+        {
+          name: 'Unova',
+          isActive: false,
+          games: ['Diamond', 'Pearl'],
+          numberRange: [494, 649]
+        },
+        {
+          name: 'Kalos',
+          isActive: false,
+          games: ['Black', 'White'],
+          numberRange: [650, 721]
+        },
+        {
+          name: 'Alola',
+          isActive: false,
+          games: ['X', 'Y'],
+          numberRange: [722, 809]
+        },
+        {
+          name: 'Galar',
+          isActive: false,
+          games: ['Sun', 'Moon'],
+          numberRange: [810, 898]
+        }
+      ],
+    };
+  }
 };
 </script>
 
@@ -40,5 +84,4 @@ div {
   margin-top: 20px;
   margin-bottom: 20px;
 }
-
 </style>

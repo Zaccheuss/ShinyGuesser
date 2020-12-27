@@ -1,13 +1,16 @@
 <template>
   <div class="container">
     <h1>Find the Shiny Pokemon</h1>
-    <img
+
+    <div
+      id="img-container"
+      class="box"
       v-for="pokemon in pokeArray"
-      :key="pokemon"
-      v-bind:src="pokemon.url"
-      alt="pokemon sprite to guess"
+      :key="pokemon.url"
       v-on:click="onSpriteClick(pokemon)"
-    />
+    >
+      <img v-bind:src="pokemon.url" alt="pokemon sprite to guess" />
+    </div>
     <div>
       <span>{{ round }}</span>
       /
@@ -23,7 +26,7 @@ import PokeService from "@/services/PokeService.js";
 export default {
   data() {
     return {
-      range: [0, 893],
+      range: [],
       numberOfSprites: 5,
       pokeArray: [],
       shinyLocation: -1,
@@ -33,15 +36,21 @@ export default {
     };
   },
   created() {
+    const activeRegions = this.$route.params.regions.filter(region => region.isActive);
+    activeRegions.forEach(region => {
+      const pokeNumberRange = Array.from({length: region.numberRange[1] - region.numberRange[0] + 1}, 
+        (_, i) => i + region.numberRange[0]);
+      this.range = this.range.concat(pokeNumberRange);
+    });
     this.generatePokeArray();
+
   },
   methods: {
     // Find a unique number given an array of numbers and a range
     findUniqueNumber: function (chosenNumbers) {
       let number;
       do {
-        number =
-          1 + this.range[0] + Math.floor(Math.random() * this.range[1] + 1);
+        number = this.range[Math.floor(Math.random() * this.range.length)];
       } while (chosenNumbers.includes(number));
       return number;
     },
@@ -52,7 +61,7 @@ export default {
           name: "Results",
           params: {
             numberOfCorrectGuesses: this.numberCorrectGuesses,
-            numberOfQuestions: this.maxRound
+            numberOfQuestions: this.maxRound,
           },
         });
       }
@@ -82,9 +91,16 @@ export default {
 </script>
 
 <style scoped>
-
 .container {
   text-align: center;
 }
 
+#img-container {
+  margin: 50px 20px 50px 0;
+  display: inline-block;
+}
+
+#img-container:hover {
+  background-color: rgba(238, 238, 238, 0.527);
+}
 </style>
