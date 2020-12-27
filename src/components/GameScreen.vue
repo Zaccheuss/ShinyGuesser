@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <h1>Find the Shiny Pokemon</h1>
-
     <div
       id="img-container"
       class="box"
@@ -26,6 +25,7 @@ import PokeService from "@/services/PokeService.js";
 export default {
   data() {
     return {
+      isLoading: true,
       range: [],
       numberOfSprites: 5,
       pokeArray: [],
@@ -36,15 +36,8 @@ export default {
     };
   },
   created() {
-    const activeRegions = this.$route.params.regions.filter(region => region.isActive);
-    activeRegions.forEach(region => {
-      const pokeNumberRange = Array.from({length: region.numberRange[1] - region.numberRange[0] + 1}, 
-        (_, i) => i + region.numberRange[0]);
-      this.range = this.range.concat(pokeNumberRange);
-    });
-    console.log(this.range);
+    this.generatePokemonNumberRange();
     this.generatePokeArray();
-
   },
   methods: {
     // Find a unique number given an array of numbers and a range
@@ -87,6 +80,18 @@ export default {
         }
       }
     },
+    generatePokemonNumberRange() {
+      const activeRegions = this.$route.params.regions.filter(
+        (region) => region.isActive
+      );
+      activeRegions.forEach((region) => {
+        const pokeNumberRange = Array.from(
+          { length: region.numberRange[1] - region.numberRange[0] + 1 },
+          (_, i) => i + region.numberRange[0]
+        );
+        this.range = this.range.concat(pokeNumberRange);
+      });
+    },
   },
 };
 </script>
@@ -99,6 +104,7 @@ export default {
 #img-container {
   margin: 50px 20px 50px 0;
   display: inline-block;
+  position: relative;
 }
 
 #img-container:hover {
