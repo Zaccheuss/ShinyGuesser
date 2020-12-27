@@ -2,6 +2,10 @@
   <div class="container">
     Final score
     <p>{{ $route.params.numberOfCorrectGuesses }} correct out of {{ $route.params.numberOfQuestions }}</p>
+
+    <router-link :to="{ name: 'Home' }">
+      <b-button>Back to Start</b-button>
+    </router-link>
   </div>
 </template>
 

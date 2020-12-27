@@ -6,7 +6,7 @@
       </router-link>
     </div>
     <section id="options">
-      <div class="field" v-for="region in regions" :key="region.name"> 
+      <div class="field" v-for="region in regions" :key="region.name" @change="saveRegionsToLocalStorage()"> 
         <b-checkbox v-model="region.isActive">{{ region.name }}</b-checkbox>
       </div>
 
@@ -23,7 +23,7 @@ export default {
       regions: [
         {
           name: 'Kanto',
-          isActive: true,
+          isActive: false,
           games: ['Red', 'Blue'],
           numberRange: [1, 151]
         },
@@ -71,6 +71,16 @@ export default {
         }
       ],
     };
+  },
+  created() {
+    if (localStorage.getItem('regions')) {
+      this.regions = JSON.parse(localStorage.getItem('regions'));
+    }
+  },
+  methods: {
+    saveRegionsToLocalStorage: function () {
+      localStorage.setItem('regions', JSON.stringify(this.regions));
+    }
   }
 };
 </script>

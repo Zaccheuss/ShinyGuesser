@@ -42,6 +42,7 @@ export default {
         (_, i) => i + region.numberRange[0]);
       this.range = this.range.concat(pokeNumberRange);
     });
+    console.log(this.range);
     this.generatePokeArray();
 
   },
