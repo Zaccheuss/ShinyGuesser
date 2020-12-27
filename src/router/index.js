@@ -1,8 +1,10 @@
+import Home from '@/views/Home.vue'
+import GameScreen from '@/components/GameScreen.vue'
+import Results from '@/views/Results.vue'
 import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Router from 'vue-router'
 
-Vue.use(VueRouter)
+Vue.use(Router)
 
 const routes = [
   {
@@ -17,13 +19,24 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+  },
+  {
+    path: '/',
+    name: 'Game',
+    component: GameScreen
+  },
+  {
+    path: '/results',
+    name: 'Results',
+    component: Results
   }
 ]
 
-const router = new VueRouter({
+const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  props: true
 })
 
 export default router
