@@ -1,9 +1,7 @@
 <template>
   <div class="home">
     <div class="button-container">
-      <router-link :to="{ name: 'Game', params: {regions: regions}}">
-        <b-button type="is-primary">Start Game</b-button>
-      </router-link>
+      <b-button v-on:click="navigateToGame()" type="is-primary">Start Game</b-button>
     </div>
     <section id="options">
       <div class="field" v-for="region in regions" :key="region.name" @change="saveRegionsToLocalStorage()"> 
@@ -78,8 +76,16 @@ export default {
     }
   },
   methods: {
-    saveRegionsToLocalStorage: function () {
+    saveRegionsToLocalStorage: function() {
       localStorage.setItem('regions', JSON.stringify(this.regions));
+    },
+    navigateToGame: function() {
+      // Check to make sure at least one region is checked
+      if (!this.regions.some(region => region.isActive)) {
+        alert('At least one region must be selected');
+      } else {
+        this.$router.push({ name: 'Game', params: {regions: this.regions}})
+      }
     }
   }
 };
