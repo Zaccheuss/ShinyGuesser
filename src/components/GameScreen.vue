@@ -8,7 +8,11 @@
       :key="pokemon.url"
       v-on:click="onSpriteClick(pokemon)"
     >
-      <img v-bind:src="pokemon.url" alt="pokemon sprite to guess" />
+      <img
+        v-bind:src="pokemon.url"
+        alt="pokemon sprite to guess"
+      />
+      <div v-if="showNames">{{ pokemon.name }}</div>
     </div>
     <div>
       <span>{{ round }}</span>
@@ -16,6 +20,9 @@
       <span>{{ maxRound }}</span>
     </div>
     <div>Correct guesses: {{ numberCorrectGuesses }}</div>
+    <div @change="savePrefToLocalStorage()">
+      <b-checkbox v-model="showNames">Show Names</b-checkbox>
+    </div>
   </div>
 </template>
 
@@ -33,11 +40,13 @@ export default {
       maxRound: 10,
       round: 1,
       numberCorrectGuesses: 0,
+      showNames: false
     };
   },
   created() {
     this.generatePokemonNumberRange();
     this.generatePokeArray();
+    if (localStorage.getItem('showNames')) { this.showNames = localStorage.getItem('showNames')}
   },
   methods: {
     // Find a unique number given an array of numbers and a range
@@ -68,17 +77,26 @@ export default {
       this.shinyLocation = Math.floor(Math.random() * this.numberOfSprites);
       for (let i = 0; i < this.numberOfSprites; i++) {
         chosenPokemon.push(this.findUniqueNumber(chosenPokemon));
-
         if (i === this.shinyLocation) {
-          PokeService.getShinySprite(chosenPokemon[i]).then((response) => {
-            this.pokeArray.push({ url: response.config.url, shiny: true });
+          PokeService.getPokemonInformation(chosenPokemon[i]).then(response => {
+            this.pokeArray.push({ 
+              url: response.data.sprites.front_shiny, 
+              shiny: true, 
+              name: response.data.name,
+
+            });
           });
         } else {
-          PokeService.getSprite(chosenPokemon[i]).then((response) => {
-            this.pokeArray.push({ url: response.config.url, shiny: false });
+          PokeService.getPokemonInformation(chosenPokemon[i]).then(response => {
+            this.pokeArray.push({ 
+              url: response.data.sprites.front_default, 
+              shiny: false, 
+              name: response.data.name 
+            });
           });
         }
       }
+      return 
     },
     generatePokemonNumberRange() {
       const activeRegions = this.$route.params.regions.filter(
@@ -92,6 +110,9 @@ export default {
         this.range = this.range.concat(pokeNumberRange);
       });
     },
+    savePrefToLocalStorage() {
+      localStorage.setItem('showNames', this.showNames);
+    }
   },
 };
 </script>
