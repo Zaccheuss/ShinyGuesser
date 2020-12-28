@@ -109,5 +109,6 @@ export default {
 
 #img-container:hover {
   background-color: rgba(238, 238, 238, 0.527);
+  box-shadow: none;
 }
 </style>
