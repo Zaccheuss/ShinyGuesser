@@ -9,11 +9,16 @@
         :key="n"
         v-on:click="onSpriteClick(pokeArray[n - 1])"
       >
-        <img
-          v-bind:src="pokeArray[n - 1].url"
-          alt="pokemon sprite to guess"
-        />
-        <div v-if="showNames">{{ pokeArray[n - 1].name }}</div>
+
+          <img
+          v-show="loaded === pokeArray.length"
+            v-bind:src="pokeArray[n - 1].url"
+            alt="pokemon sprite to guess"
+            :key="pokeArray[n - 1].url"
+            v-on:load="loaded++"
+          />
+          <img src="../assets/loading.gif" alt="loading icon" v-show="loaded !== pokeArray.length">
+        <div v-show="loaded === pokeArray.length" v-if="showNames">{{ pokeArray[n - 1].name }}</div>
       </div>
       <div></div>
       <span>{{ round }}</span>
@@ -34,6 +39,7 @@ import Vue from 'vue';
 export default {
   data() {
     return {
+      loaded: 0,
       range: [],
       numberOfSprites: 5,
       pokeArray: 
@@ -80,6 +86,9 @@ export default {
     }
   },
   methods: {
+    test() {
+      this.loaded++;
+    },
     // Find a unique number given an array of numbers and a range
     findUniqueNumber: function (chosenNumbers) {
       let number;
@@ -102,7 +111,8 @@ export default {
       this.round++;
       this.generatePokeArray();
     },
-    generatePokeArray() {
+    generatePokeArray() { 
+      this.loaded = 0;
       const chosenPokemon = [];
       this.shinyLocation = Math.floor(Math.random() * this.numberOfSprites);
       for (let i = 0; i < this.numberOfSprites; i++) {
@@ -127,8 +137,8 @@ export default {
               }))
             }
           );
-        }
-      }
+        } //end else block
+      } //end for loop
     },
     generatePokemonNumberRange() {
       const activeRegions = this.$route.params.regions.filter(
@@ -158,6 +168,8 @@ export default {
   margin: 50px 20px 50px 0;
   display: inline-block;
   position: relative;
+  width: 136px;
+  height: 165px;
 }
 
 #img-container:hover {
