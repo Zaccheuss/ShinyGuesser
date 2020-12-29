@@ -7,6 +7,8 @@
         class="box"
         v-for="n in numberOfSprites"
         :key="n"
+        :class="{green: answerCorrect, red: answerIncorrect}"
+        @animationend="answerCorrect = false; answerIncorrect = false;"
         v-on:click="onSpriteClick(pokeArray[n - 1])"
       >
 
@@ -15,7 +17,7 @@
             v-bind:src="pokeArray[n - 1].url"
             alt="pokemon sprite to guess"
             :key="pokeArray[n - 1].url"
-            v-on:load="loaded++"
+            v-on:load="onImageLoad()"
           />
           <img src="../assets/loading.gif" alt="loading icon" v-show="loaded !== pokeArray.length">
         <div v-show="loaded === pokeArray.length" v-if="showNames">{{ pokeArray[n - 1].name }}</div>
@@ -75,6 +77,8 @@ export default {
       round: 1,
       numberCorrectGuesses: 0,
       showNames: false,
+      answerCorrect: false,
+      answerIncorrect: false,
     };
   },
   created() {
@@ -86,9 +90,6 @@ export default {
     }
   },
   methods: {
-    test() {
-      this.loaded++;
-    },
     // Find a unique number given an array of numbers and a range
     findUniqueNumber: function (chosenNumbers) {
       let number;
@@ -97,8 +98,16 @@ export default {
       } while (chosenNumbers.includes(number));
       return number;
     },
+    onImageLoad() {
+      this.loaded++;
+    },
     onSpriteClick(pokemon) {
-      if (pokemon.shiny) this.numberCorrectGuesses++;
+      if (pokemon.shiny) {
+        this.numberCorrectGuesses++;
+        this.answerCorrect = true;
+      } else {
+        this.answerIncorrect = true;
+      }
       if (this.round === 10) {
         this.$router.push({
           name: "Results",
@@ -174,6 +183,26 @@ export default {
 
 #img-container:hover {
   background-color: rgba(238, 238, 238, 0.527);
+  transition: box-shadow 100ms linear;
   box-shadow: none;
 }
+
+.green {
+  animation: correct-move 600ms 1 ease;
+}
+
+.red {
+  animation: wrong-move 650ms 1 ease;
+}
+
+@keyframes correct-move {
+  from {background-color: green;}
+  to {background-color: white;}
+}
+
+@keyframes wrong-move {
+  from {background-color: red;}
+  to {background-color: white;}
+}
+
 </style>
