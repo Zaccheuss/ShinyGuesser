@@ -19,7 +19,7 @@
             :key="pokeArray[n - 1].url"
             v-on:load="onImageLoad()"
           />
-          <img src="../assets/loading.gif" alt="loading icon" v-show="loaded !== pokeArray.length">
+          
         <div v-show="loaded === pokeArray.length" v-if="showNames">{{ pokeArray[n - 1].name }}</div>
       </div>
       <div></div>
