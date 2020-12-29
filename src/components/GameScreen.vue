@@ -9,11 +9,16 @@
         :key="n"
         v-on:click="onSpriteClick(pokeArray[n - 1])"
       >
-        <img
-          v-bind:src="pokeArray[n - 1].url"
-          alt="pokemon sprite to guess"
-        />
-        <div v-if="showNames">{{ pokeArray[n - 1].name }}</div>
+
+          <img
+          v-show="loaded === pokeArray.length"
+            v-bind:src="pokeArray[n - 1].url"
+            alt="pokemon sprite to guess"
+            :key="pokeArray[n - 1].url"
+            v-on:load="test(n)"
+          />
+          <img src="../assets/loading.gif" alt="loading icon" v-show="loaded !== pokeArray.length">
+        <div v-show="loaded === pokeArray.length" v-if="showNames">{{ pokeArray[n - 1].name }}</div>
       </div>
       <div></div>
       <span>{{ round }}</span>
@@ -34,6 +39,7 @@ import Vue from 'vue';
 export default {
   data() {
     return {
+      loaded: 0,
       range: [],
       numberOfSprites: 5,
       pokeArray: 
@@ -80,6 +86,10 @@ export default {
     }
   },
   methods: {
+    test(n) {
+      console.log('img loaded', n, this.loaded,  new Date().getMilliseconds());
+      this.loaded++;
+    },
     // Find a unique number given an array of numbers and a range
     findUniqueNumber: function (chosenNumbers) {
       let number;
@@ -103,6 +113,36 @@ export default {
       this.generatePokeArray();
     },
     generatePokeArray() {
+
+      this.pokeArray = [
+        {
+          url: 'require(../assets/logo.png)',
+          name: 'bruh',
+          shiny: null
+        },
+        {
+          url: 'require(../assets/logo.png)',
+          name: 'bruh',
+          shiny: null
+        },
+        {
+          url: 'require(../assets/logo.png)',
+          name: 'bruh',
+          shiny: null
+        },
+        {
+          url: 'require(../assets/logo.png)',
+          name: 'bruh',
+          shiny: null
+        },
+        {
+          url: 'require(../assets/logo.png)',
+          name: 'bruh',
+          shiny: null
+        }
+      ]
+
+      this.loaded = 0;
       const chosenPokemon = [];
       this.shinyLocation = Math.floor(Math.random() * this.numberOfSprites);
       for (let i = 0; i < this.numberOfSprites; i++) {
