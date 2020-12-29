@@ -1,20 +1,21 @@
 <template>
   <div class="container">
     <h1>Find the Shiny Pokemon</h1>
-    <div
-      id="img-container"
-      class="box"
-      v-for="pokemon in pokeArray"
-      :key="pokemon.url"
-      v-on:click="onSpriteClick(pokemon)"
-    >
-      <img
-        v-bind:src="pokemon.url"
-        alt="pokemon sprite to guess"
-      />
-      <div v-if="showNames">{{ pokemon.name }}</div>
-    </div>
     <div>
+      <div
+        id="img-container"
+        class="box"
+        v-for="n in numberOfSprites"
+        :key="n"
+        v-on:click="onSpriteClick(pokeArray[n - 1])"
+      >
+        <img
+          v-bind:src="pokeArray[n - 1].url"
+          alt="pokemon sprite to guess"
+        />
+        <div v-if="showNames">{{ pokeArray[n - 1].name }}</div>
+      </div>
+      <div></div>
       <span>{{ round }}</span>
       /
       <span>{{ maxRound }}</span>
@@ -28,25 +29,55 @@
 
 <script>
 import PokeService from "@/services/PokeService.js";
+import Vue from 'vue';
 
 export default {
   data() {
     return {
-      isLoading: true,
       range: [],
       numberOfSprites: 5,
-      pokeArray: [],
+      pokeArray: 
+      [
+        {
+          url: null,
+          name: 'bruh',
+          shiny: null
+        },
+        {
+          url: null,
+          name: 'bruh',
+          shiny: null
+        },
+        {
+          url: null,
+          name: 'bruh',
+          shiny: null
+        },
+        {
+          url: null,
+          name: 'bruh',
+          shiny: null
+        },
+        {
+          url: null,
+          name: 'bruh',
+          shiny: null
+        }
+      ],
       shinyLocation: -1,
       maxRound: 10,
       round: 1,
       numberCorrectGuesses: 0,
-      showNames: false
+      showNames: false,
     };
   },
   created() {
+    console.log(this.pokeArray);
     this.generatePokemonNumberRange();
     this.generatePokeArray();
-    if (localStorage.getItem('showNames')) { this.showNames = localStorage.getItem('showNames')}
+    if (localStorage.getItem("showNames")) {
+      this.showNames = localStorage.getItem("showNames");
+    }
   },
   methods: {
     // Find a unique number given an array of numbers and a range
@@ -72,31 +103,32 @@ export default {
       this.generatePokeArray();
     },
     generatePokeArray() {
-      this.pokeArray = [];
       const chosenPokemon = [];
       this.shinyLocation = Math.floor(Math.random() * this.numberOfSprites);
       for (let i = 0; i < this.numberOfSprites; i++) {
         chosenPokemon.push(this.findUniqueNumber(chosenPokemon));
         if (i === this.shinyLocation) {
-          PokeService.getPokemonInformation(chosenPokemon[i]).then(response => {
-            this.pokeArray.push({ 
-              url: response.data.sprites.front_shiny, 
-              shiny: true, 
-              name: response.data.name,
-
-            });
-          });
+          PokeService.getPokemonInformation(chosenPokemon[i]).then(
+            (response) => {
+              Vue.set(this.pokeArray, i, ({
+                url: response.data.sprites.front_shiny,
+                shiny: true,
+                name: response.data.name,
+              }))
+            }
+          );
         } else {
-          PokeService.getPokemonInformation(chosenPokemon[i]).then(response => {
-            this.pokeArray.push({ 
-              url: response.data.sprites.front_default, 
-              shiny: false, 
-              name: response.data.name 
-            });
-          });
+          PokeService.getPokemonInformation(chosenPokemon[i]).then(
+            (response) => {
+              Vue.set(this.pokeArray, i, ({
+                url: response.data.sprites.front_default,
+                shiny: false,
+                name: response.data.name,
+              }))
+            }
+          );
         }
       }
-      return 
     },
     generatePokemonNumberRange() {
       const activeRegions = this.$route.params.regions.filter(
@@ -111,8 +143,8 @@ export default {
       });
     },
     savePrefToLocalStorage() {
-      localStorage.setItem('showNames', this.showNames);
-    }
+      localStorage.setItem("showNames", this.showNames);
+    },
   },
 };
 </script>
