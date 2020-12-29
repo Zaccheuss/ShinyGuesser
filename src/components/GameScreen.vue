@@ -46,7 +46,9 @@ export default {
   created() {
     this.generatePokemonNumberRange();
     this.generatePokeArray();
-    if (localStorage.getItem('showNames')) { this.showNames = localStorage.getItem('showNames')}
+    if (localStorage.getItem('showNames')) {
+      localStorage.getItem('showNames') === 'true' ? this.showNames = true : this.showNames = false;
+    }
   },
   methods: {
     // Find a unique number given an array of numbers and a range
