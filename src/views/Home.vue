@@ -82,7 +82,7 @@ export default {
     navigateToGame: function() {
       // Check to make sure at least one region is checked
       if (!this.regions.some(region => region.isActive)) {
-        alert('At least one region must be selected');
+        alert('One or more regions must be selected');
       } else {
         this.$router.push({ name: 'Game', params: {regions: this.regions}})
       }
