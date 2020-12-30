@@ -7,20 +7,23 @@
         class="box"
         v-for="n in numberOfSprites"
         :key="n"
-        :class="{green: answerCorrect, red: answerIncorrect}"
-        @animationend="answerCorrect = false; answerIncorrect = false;"
+        :class="{ green: answerCorrect, red: answerIncorrect }"
+        @animationend="
+          answerCorrect = false;
+          answerIncorrect = false;
+        "
         v-on:click="onSpriteClick(pokeArray[n - 1])"
       >
+        <img
+          v-bind:src="pokeArray[n - 1].url"
+          alt="pokemon sprite to guess"
+          :key="pokeArray[n - 1].url"
+          v-on:load="onImageLoad()"
+        />
 
-          <img
-          v-show="loaded === pokeArray.length"
-            v-bind:src="pokeArray[n - 1].url"
-            alt="pokemon sprite to guess"
-            :key="pokeArray[n - 1].url"
-            v-on:load="onImageLoad()"
-          />
-          
-        <div v-show="loaded === pokeArray.length" v-if="showNames">{{ pokeArray[n - 1].name }}</div>
+        <div v-if="showNames">
+          {{ pokeArray[n - 1].name }}
+        </div>
       </div>
       <div></div>
       <span>{{ round }}</span>
@@ -36,7 +39,7 @@
 
 <script>
 import PokeService from "@/services/PokeService.js";
-import Vue from 'vue';
+// import Vue from 'vue';
 
 export default {
   data() {
@@ -79,12 +82,14 @@ export default {
       showNames: false,
       answerCorrect: false,
       answerIncorrect: false,
+      testImages: [],
     };
   },
   created() {
-    console.log(this.pokeArray);
     this.generatePokemonNumberRange();
-    this.generatePokeArray();
+    // this.generatePokeArray();
+    this.cacheImages();
+    this.showRound();
     if (localStorage.getItem('showNames')) {
       localStorage.getItem('showNames') === 'true' ? this.showNames = true : this.showNames = false;
     }
@@ -118,36 +123,10 @@ export default {
         });
       }
       this.round++;
-      this.generatePokeArray();
+      this.showRound();
     },
-    generatePokeArray() { 
-      this.loaded = 0;
-      const chosenPokemon = [];
-      this.shinyLocation = Math.floor(Math.random() * this.numberOfSprites);
-      for (let i = 0; i < this.numberOfSprites; i++) {
-        chosenPokemon.push(this.findUniqueNumber(chosenPokemon));
-        if (i === this.shinyLocation) {
-          PokeService.getPokemonInformation(chosenPokemon[i]).then(
-            (response) => {
-              Vue.set(this.pokeArray, i, ({
-                url: response.data.sprites.front_shiny,
-                shiny: true,
-                name: response.data.name,
-              }))
-            }
-          );
-        } else {
-          PokeService.getPokemonInformation(chosenPokemon[i]).then(
-            (response) => {
-              Vue.set(this.pokeArray, i, ({
-                url: response.data.sprites.front_default,
-                shiny: false,
-                name: response.data.name,
-              }))
-            }
-          );
-        } //end else block
-      } //end for loop
+    showRound() {
+      this.pokeArray = this.testImages[this.round - 1];
     },
     generatePokemonNumberRange() {
       const activeRegions = this.$route.params.regions.filter(
@@ -164,6 +143,28 @@ export default {
     savePrefToLocalStorage() {
       localStorage.setItem("showNames", this.showNames);
     },
+    generateRound() {
+      const chosenPokemon = [];
+      const outputArray = [];
+      this.shinyLocation = Math.floor(Math.random() * this.numberOfSprites);
+      for (let i = 0; i < this.numberOfSprites; i++) {
+        chosenPokemon.push(this.findUniqueNumber(chosenPokemon));
+        PokeService.getPokemonInformation(chosenPokemon[i]).then(response => {
+          const isShiny = i === this.shinyLocation;
+          outputArray.push({
+            url: isShiny ? response.data.sprites.front_shiny : response.data.sprites.front_default,
+            shiny: isShiny,
+            name: response.data.name 
+          }); 
+        });
+      }      
+      return outputArray;
+    },
+    cacheImages() {
+      for (let i = 0; i < this.maxRound; i++) {
+        this.testImages.push(this.generateRound());
+      }
+    }
   },
 };
 </script>
@@ -196,13 +197,20 @@ export default {
 }
 
 @keyframes correct-move {
-  from {background-color: green;}
-  to {background-color: white;}
+  from {
+    background-color: green;
+  }
+  to {
+    background-color: white;
+  }
 }
 
 @keyframes wrong-move {
-  from {background-color: red;}
-  to {background-color: white;}
+  from {
+    background-color: red;
+  }
+  to {
+    background-color: white;
+  }
 }
-
 </style>
