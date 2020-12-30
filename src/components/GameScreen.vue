@@ -87,8 +87,9 @@ export default {
   },
   created() {
     this.generatePokemonNumberRange();
-    // this.generatePokeArray();
     this.cacheImages();
+  },
+  mounted() {
     this.showRound();
     if (localStorage.getItem('showNames')) {
       localStorage.getItem('showNames') === 'true' ? this.showNames = true : this.showNames = false;
