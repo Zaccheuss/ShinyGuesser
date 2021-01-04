@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>Find the Shiny Pokemon</h1>
-    <div>
+    <div class="card-container">
       <div
         id="img-container"
         class="box"
@@ -18,18 +18,19 @@
           v-bind:src="pokeArray[n - 1].url"
           alt="pokemon sprite to guess"
           :key="pokeArray[n - 1].url"
-          v-on:load="onImageLoad()"
+          v-on:load="loaded++"
         />
 
         <div v-if="showNames">
           {{ pokeArray[n - 1].name }}
         </div>
       </div>
-      <div></div>
-      <span>{{ round }}</span>
-      /
-      <span>{{ maxRound }}</span>
     </div>
+      <div>
+        <span>{{ round }}</span>
+        /
+        <span>{{ maxRound }}</span>
+      </div>
     <div>Correct guesses: {{ numberCorrectGuesses }}</div>
     <div @change="savePrefToLocalStorage()">
       <b-checkbox v-model="showNames">Show Names</b-checkbox>
@@ -180,13 +181,17 @@ export default {
   display: inline-block;
   position: relative;
   width: 136px;
-  height: 165px;
+  /* height: 165px; */
 }
 
 #img-container:hover {
   background-color: rgba(238, 238, 238, 0.527);
   transition: box-shadow 100ms linear;
   box-shadow: none;
+}
+
+.card-container {
+  height: 245px;
 }
 
 .green {
