@@ -3,12 +3,11 @@
     <div class="button-container">
       <b-button v-on:click="navigateToGame()" type="is-primary">Start Game</b-button>
     </div>
-    <section id="options">
+    <div id="options">
       <div class="field" v-for="region in regions" :key="region.name" @change="saveRegionsToLocalStorage()"> 
         <b-checkbox v-model="region.isActive">{{ region.name }}</b-checkbox>
       </div>
-
-    </section>
+    </div>
   </div>
 </template>
 
@@ -99,5 +98,18 @@ div {
 .button-container {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.home {
+  display: flex;
+  flex-direction: column;
+}
+
+#options {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: flex-start; /* line up checkboxes */
+  align-self: center; /* center options on page */
 }
 </style>
