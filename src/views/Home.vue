@@ -3,9 +3,20 @@
     <div class="button-container">
       <b-button v-on:click="navigateToGame()" type="is-primary">Start Game</b-button>
     </div>
-    <div id="options">
-      <div class="field" v-for="region in regions" :key="region.name" @change="saveRegionsToLocalStorage()"> 
-        <b-checkbox v-model="region.isActive">{{ region.name }}</b-checkbox>
+    <div class="game-info">
+      <div id="options">
+        <h3 class="bold-text">Options</h3>
+        <div id="checkboxes">
+          <div class="field" v-for="region in regions" :key="region.name" @change="saveRegionsToLocalStorage()">
+          <b-checkbox v-model="region.isActive">{{ region.name }}</b-checkbox>
+          </div>
+        </div>
+      </div>
+      <div id="high-scores">
+        <h3 class="bold-text">High Scores</h3>
+        <p>
+          You don't have any high scores yet.
+        </p>
       </div>
     </div>
   </div>
@@ -105,11 +116,34 @@ div {
   flex-direction: column;
 }
 
+.game-info {
+  display: flex;
+  justify-content: center;
+}
+
+.bold-text {
+  font-size: 20px;
+  padding-bottom: 12px;
+  font-weight: bold;
+}
+
+#high-scores {
+  /* background-color: blanchedalmond; */
+  width: 200px;
+}
+
 #options {
+  /* background-color: cadetblue; */
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  align-items: flex-start; /* line up checkboxes */
-  align-self: center; /* center options on page */
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+}
+
+#checkboxes {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 </style>
