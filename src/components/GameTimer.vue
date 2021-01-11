@@ -20,8 +20,14 @@ export default {
       return `${minutes}:${seconds}.${milliseconds}`;
     }
   },
+  methods: {
+    onTick() {
+      this.time++;
+      this.$emit('onTick', this.formattedTime);
+    }
+  },
   created() {
-    this.timer = setInterval( () => this.time++, 100);
+    this.timer = setInterval( () => this.onTick(), 100);
   }
 
 }

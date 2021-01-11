@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <h1>Find the Shiny Pokemon</h1>
-    <game-timer />
+    <game-timer @onTick="handleTick($event)" />
     <div class="card-container">
       <div
         id="img-container"
@@ -47,6 +47,7 @@ export default {
   components: { GameTimer },
   data() {
     return {
+      time: 0,
       loaded: 0,
       range: [],
       numberOfSprites: 5,
@@ -123,6 +124,7 @@ export default {
           params: {
             numberOfCorrectGuesses: this.numberCorrectGuesses,
             numberOfQuestions: this.maxRound,
+            completionTime: this.time,
           },
         });
       }
@@ -168,6 +170,9 @@ export default {
       for (let i = 0; i < this.maxRound; i++) {
         this.testImages.push(this.generateRound());
       }
+    },
+    handleTick(time) {
+      this.time = time;
     }
   },
 };
