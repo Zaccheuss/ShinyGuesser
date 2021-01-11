@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <h1>Find the Shiny Pokemon</h1>
+    <game-timer />
     <div class="card-container">
       <div
         id="img-container"
@@ -40,9 +41,10 @@
 
 <script>
 import PokeService from "@/services/PokeService.js";
-// import Vue from 'vue';
+import GameTimer from "@/components/GameTimer.vue";
 
 export default {
+  components: { GameTimer },
   data() {
     return {
       loaded: 0,
