@@ -1,6 +1,6 @@
 <template>
   <div>
-    {{ formattedTime }}
+    {{ formatTime(time) }}
   </div>
 </template>
 
@@ -12,22 +12,15 @@ export default {
       timer: null,
     }
   },
-  computed: {
-    formattedTime: function() {
-      let milliseconds = this.time % 10;
-      let seconds = Math.floor((this.time / 10) % 60);
-      let minutes = Math.floor((this.time / 10 / 60) % 60);
-      return `${minutes}:${seconds}.${milliseconds}`;
-    }
-  },
   methods: {
     onTick() {
       this.time++;
-      this.$emit('onTick', this.formattedTime);
+      this.$emit('onTick', this.time);
     }
   },
   created() {
     this.timer = setInterval( () => this.onTick(), 100);
+    console.log(this.formatTime(this.time));
   }
 
 }
