@@ -85,7 +85,7 @@ export default {
           numberRange: [810, 898]
         }
       ],
-      hiscores: null,
+      hiscores: [],
     };
   },
   created() {
