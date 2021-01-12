@@ -14,8 +14,11 @@
       </div>
       <div id="high-scores">
         <h3 class="bold-text">High Scores</h3>
-        <p>
+        <p v-if="hiscore === null">
           You don't have any high scores yet.
+        </p>
+        <p v-else>
+          Your current hiscore is: {{ hiscore.score }} correct guesses in {{ hiscore.completionTime }}s.
         </p>
       </div>
     </div>
@@ -78,11 +81,15 @@ export default {
           numberRange: [810, 898]
         }
       ],
+      hiscore: null,
     };
   },
   created() {
     if (localStorage.getItem('regions')) {
       this.regions = JSON.parse(localStorage.getItem('regions'));
+    }
+    if (localStorage.getItem('hiscore')) {
+      this.hiscore = JSON.parse(localStorage.getItem('hiscore'));
     }
   },
   methods: {
