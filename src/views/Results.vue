@@ -4,7 +4,7 @@
     <p>{{ $route.params.numberOfCorrectGuesses }} correct out of {{ $route.params.numberOfQuestions }}</p>
     <p>Completed in: {{ $route.params.completionTime }}</p>
 
-    <p v-if="newHiscore">This is a new hiscore!</p>
+    <p v-if="isNewHiscore">This is a new hiscore!</p>
 
     <router-link :to="{ name: 'Home' }">
       <b-button>Back to Start</b-button>
@@ -16,7 +16,8 @@
 export default {
   data() {
     return {
-      newHiscore: false,
+      isNewHiscore: false,
+      hiscoreStorage: 5,
     }
   },
   created() {
@@ -24,24 +25,34 @@ export default {
   },
   methods: {
     checkHighScores() {
-      if (localStorage.getItem('hiscore')) {
-        const hiscore = JSON.parse(localStorage.getItem('hiscore'));
-        console.log('bruh', hiscore.score, this.$route.params.numberOfCorrectGuesses);
-        if (hiscore.score < this.$route.params.numberOfCorrectGuesses) {
-          console.log('new hiscore');
-          this.logNewHighScore();
+      this.logHighScore();
+      const hiscore = JSON.parse(localStorage.getItem('hiscore'));
+      hiscore.foreach(element => {
+        if (element.score < this.$route.params.numberOfCorrectGuesses) {
+          this.logHighScore();
         }
-      } else { // If nothing is found in localstorage, log the current score as the highscore
-        this.logNewHighScore();
-      }
+      });
     },
-    logNewHighScore() {
-      this.newHiscore = true;
-      const hiscore = {
+    logHighScore() {
+      this.isNewHiscore = true;
+      const hiscore = JSON.parse(localStorage.getItem('hiscore'));
+      const newHiscore =
+        {
           score: this.$route.params.numberOfCorrectGuesses,
           completionTime: this.$route.params.completionTime
         }
-        localStorage.setItem('hiscore', JSON.stringify(hiscore));
+      hiscore.push(newHiscore);
+      this.sortHighScores(hiscore);
+    },
+    sortHighScores(hiscore) {
+      function compare(a, b) {
+        return a.score > b.score ? -1 : 1;
+      }
+      hiscore.sort(compare);
+      if (hiscore.length > this.hiscoreStorage) { //Only store the top 5 hiscores, remove otherwise
+        hiscore.pop();
+      }
+      localStorage.setItem('hiscore', JSON.stringify(hiscore));
     }
   }
 }

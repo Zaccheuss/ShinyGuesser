@@ -14,12 +14,16 @@
       </div>
       <div id="high-scores">
         <h3 class="bold-text">High Scores</h3>
-        <p v-if="hiscore === null">
+        <p v-if="hiscores.length === 0">
           You don't have any high scores yet.
         </p>
-        <p v-else>
-          Your current hiscore is: {{ hiscore.score }} correct guesses in {{ hiscore.completionTime }}s.
-        </p>
+        <div v-else>
+          <ol>
+            <li v-for="score in hiscores" :key="score.completionTime + score.score"> 
+              {{ score.score }} correct in {{score.completionTime}}
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
@@ -81,7 +85,7 @@ export default {
           numberRange: [810, 898]
         }
       ],
-      hiscore: null,
+      hiscores: null,
     };
   },
   created() {
@@ -89,7 +93,9 @@ export default {
       this.regions = JSON.parse(localStorage.getItem('regions'));
     }
     if (localStorage.getItem('hiscore')) {
-      this.hiscore = JSON.parse(localStorage.getItem('hiscore'));
+      this.hiscores = JSON.parse(localStorage.getItem('hiscore'));
+    } else {
+      localStorage.setItem('hiscore', JSON.stringify([]))
     }
   },
   methods: {
@@ -136,7 +142,10 @@ div {
 
 #high-scores {
   /* background-color: blanchedalmond; */
-  width: 200px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 #options {
@@ -145,7 +154,7 @@ div {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 200px;
+  width: 250px;
 }
 
 #checkboxes {
