@@ -20,7 +20,6 @@ export default {
   },
   created() {
     this.timer = setInterval( () => this.onTick(), 100);
-    console.log(this.formatTime(this.time));
   }
 
 }

@@ -20,7 +20,7 @@
         <div v-else>
           <ol>
             <li v-for="score in hiscores" :key="score.completionTime + score.score"> 
-              {{ score.score }} correct in {{score.completionTime}}
+              {{ score.score }} correct in {{ formatTime(score.completionTime) }}
             </li>
           </ol>
         </div>

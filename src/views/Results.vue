@@ -2,7 +2,7 @@
   <div class="container">
     Final score
     <p>{{ $route.params.numberOfCorrectGuesses }} correct out of {{ $route.params.numberOfQuestions }}</p>
-    <p>Completed in: {{ $route.params.completionTime }}</p>
+    <p>Completed in: {{ formatTime($route.params.completionTime) }}</p>
 
     <p v-if="isNewHiscore">This is a new hiscore!</p>
 
@@ -46,6 +46,9 @@ export default {
     },
     sortHighScores(hiscore) {
       function compare(a, b) {
+        if (a.score === b.score) { //sort based on time if scores are equal
+          return a.completionTime > b.completionTime ? 1 : -1;
+        }
         return a.score > b.score ? -1 : 1;
       }
       hiscore.sort(compare);
