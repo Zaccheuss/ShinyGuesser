@@ -25,16 +25,20 @@ export default {
   },
   methods: {
     checkHighScores() {
-      this.logHighScore();
       const hiscore = JSON.parse(localStorage.getItem('hiscore'));
-      hiscore.foreach(element => {
-        if (element.score < this.$route.params.numberOfCorrectGuesses) {
-          this.logHighScore();
-        }
-      });
+      console.log(hiscore);
+      // Log high score if none exist yet or if there is still room in high score storage
+      if (hiscore.length < this.hiscoreStorage) { 
+        this.logHighScore() 
+      } else { 
+        hiscore.forEach(element => {
+          if (element.score < this.$route.params.numberOfCorrectGuesses) {
+            this.logHighScore();
+          }
+        });
+      }
     },
     logHighScore() {
-      this.isNewHiscore = true;
       const hiscore = JSON.parse(localStorage.getItem('hiscore'));
       const newHiscore =
         {
@@ -43,6 +47,9 @@ export default {
         }
       hiscore.push(newHiscore);
       this.sortHighScores(hiscore);
+      // If the new high score is sorted to the beginning of the stored high scores, then
+      //it is the highest score 
+      if (hiscore[0] === newHiscore) { this.isNewHiscore = true; }
     },
     sortHighScores(hiscore) {
       function compare(a, b) {
