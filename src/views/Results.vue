@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <site-header />
     Final score
     <p>{{ $route.params.numberOfCorrectGuesses }} correct out of {{ $route.params.numberOfQuestions }}</p>
     <p>Completed in: {{ formatTime($route.params.completionTime) }}</p>
@@ -13,7 +14,9 @@
 </template>
 
 <script>
+import SiteHeader from '../components/SiteHeader.vue';
 export default {
+  components: { SiteHeader },
   data() {
     return {
       isNewHiscore: false,

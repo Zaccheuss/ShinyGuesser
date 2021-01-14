@@ -1,5 +1,8 @@
 <template>
-  <router-view />
+  <div>
+    <!-- <site-header /> -->
+    <router-view />
+  </div>
 </template>
 
 <style scoped>

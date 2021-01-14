@@ -1,5 +1,6 @@
 <template>
   <div class="home">
+    <site-header />
     <div class="button-container">
       <b-button v-on:click="navigateToGame()" type="is-primary">Start Game</b-button>
     </div>
@@ -30,7 +31,9 @@
 </template>
 
 <script>
+import SiteHeader from '../components/SiteHeader.vue';
 export default {
+  components: { SiteHeader },
   name: "Home",
   data() {
     return {

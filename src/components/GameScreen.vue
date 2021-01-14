@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <site-header />
     <h1>Find the Shiny Pokemon</h1>
     <game-timer @onTick="handleTick($event)" />
     <div class="card-container">
@@ -42,9 +43,10 @@
 <script>
 import PokeService from "@/services/PokeService.js";
 import GameTimer from "@/components/GameTimer.vue";
+import SiteHeader from './SiteHeader.vue';
 
 export default {
-  components: { GameTimer },
+  components: { GameTimer, SiteHeader },
   data() {
     return {
       time: 0,

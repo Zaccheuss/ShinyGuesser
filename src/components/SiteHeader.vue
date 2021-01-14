@@ -1,0 +1,33 @@
+<template>
+  <div>
+    <header>
+    <h1>Pokemon Shiny Finder</h1>
+    <p>Test your Pokemon knowledge by choosing the shiny Pokemon</p>
+    </header>
+    
+  </div>
+</template>
+
+<script>
+export default {
+
+}
+</script>
+
+<style scoped>
+  @import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
+
+  h1 {
+    font-family: 'Oleo Script', cursive;
+    font-size: 70px;
+    margin-bottom: -20px;
+    padding-bottom: 0px;
+    color: rgb(0, 0, 160);
+  }
+
+  p {
+    margin-top: 0px;
+    padding-top: 0px;
+    color: gray;
+  }
+</style>
