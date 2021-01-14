@@ -1,9 +1,11 @@
 <template>
   <div class="container">
     <site-header />
-    Final score
+    <h3>
+      Final score
+    </h3>
     <p>{{ $route.params.numberOfCorrectGuesses }} correct out of {{ $route.params.numberOfQuestions }}</p>
-    <p>Completed in: {{ formatTime($route.params.completionTime) }}</p>
+    <p>Completed in {{ formatTime($route.params.completionTime) }}</p>
 
     <p v-if="isNewHiscore">This is a new hiscore!</p>
 
@@ -75,6 +77,15 @@ export default {
 
 .container {
   text-align: center;
+}
+
+h3 {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 20px;
 }
 
 </style>

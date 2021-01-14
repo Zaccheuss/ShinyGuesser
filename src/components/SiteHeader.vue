@@ -3,8 +3,8 @@
     <header>
     <h1>Pokemon Shiny Finder</h1>
     <p>Test your Pokemon knowledge by choosing the shiny Pokemon</p>
+    <hr>
     </header>
-    
   </div>
 </template>
 
@@ -29,5 +29,15 @@ export default {
     margin-top: 0px;
     padding-top: 0px;
     color: gray;
+  }
+
+  hr {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  div {
+    margin-right: 6px;
+    margin-left: 6px;
   }
 </style>

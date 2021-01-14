@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="timer">
     {{ formatTime(time) }}
   </div>
 </template>
@@ -25,6 +25,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+  #timer {
+    padding-top: 20px;
+    font-size: 20px;
+  }
 
 </style>

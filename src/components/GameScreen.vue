@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <site-header />
-    <h1>Find the Shiny Pokemon</h1>
     <game-timer @onTick="handleTick($event)" />
     <div class="card-container">
       <div
@@ -183,10 +182,11 @@ export default {
 <style scoped>
 .container {
   text-align: center;
+  width: 100vw;
 }
 
 #img-container {
-  margin: 50px 20px 50px 0;
+  margin: 20px 20px 20px 0;
   display: inline-block;
   position: relative;
   width: 136px;
@@ -200,7 +200,7 @@ export default {
 }
 
 .card-container {
-  height: 245px;
+  /* height: 200px; */
 }
 
 .green {
