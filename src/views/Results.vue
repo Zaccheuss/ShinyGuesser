@@ -22,6 +22,7 @@ export default {
   data() {
     return {
       isNewHiscore: false,
+      isInHiScores: false,
       hiscoreStorage: 5,
     }
   },
@@ -38,10 +39,11 @@ export default {
       } else { 
         hiscore.forEach(element => {
           if (element.score < this.$route.params.numberOfCorrectGuesses) {
-            this.logHighScore();
+            this.isInHiScores = true;
           }
         });
       }
+      if (this.isInHiScores) { this.logHighScore(); }
     },
     logHighScore() {
       const hiscore = JSON.parse(localStorage.getItem('hiscore'));
