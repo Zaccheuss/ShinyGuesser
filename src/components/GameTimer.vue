@@ -32,4 +32,11 @@ export default {
     font-size: 20px;
   }
 
+  @media screen and (max-width: 1020px) {
+    #timer {
+      margin-top: 0px;
+      padding-top: 0px;
+    }
+  }
+
 </style>

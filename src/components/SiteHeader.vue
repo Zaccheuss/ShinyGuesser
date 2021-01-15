@@ -40,4 +40,27 @@ export default {
     margin-right: 6px;
     margin-left: 6px;
   }
+
+  @media screen and (max-width: 1020px) {
+    h1 {
+      font-size: 11vw;
+      line-height: 40px;
+      margin-top: 4px;
+      margin-bottom: 0px;
+    }
+
+    header {
+      padding-top: 0px;
+      padding-bottom: 0px;
+    }
+
+    /* hide tagline on mobile */
+    p {
+      display: none;
+    }
+
+    hr {
+      display: none;
+    }
+  }
 </style>

@@ -33,7 +33,7 @@
         <span>{{ maxRound }}</span>
       </div>
     <div>Correct guesses: {{ numberCorrectGuesses }}</div>
-    <div @change="savePrefToLocalStorage()">
+    <div @change="savePrefToLocalStorage()" id="checkbox-container">
       <b-checkbox v-model="showNames">Show Names</b-checkbox>
     </div>
   </div>
@@ -226,6 +226,35 @@ export default {
   }
   to {
     background-color: white;
+  }
+}
+
+@media screen and (max-width: 1020px) {
+ 
+  #img-container {
+    width: 95vw;
+    margin: 4px 0px 4px 0px;
+    padding: 0px;
+    height: 15vh;
+  }
+
+  #checkbox-container {
+    display: none;
+  }
+
+  img {
+    padding-top: 1vh;
+  }
+
+}
+
+@media screen and (max-height: 675px) and (max-width: 1020px) {
+  img {
+    height: 12vh;
+  }
+
+  #img-container {
+    height: 13vh;
   }
 }
 </style>
