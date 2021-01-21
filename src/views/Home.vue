@@ -9,7 +9,11 @@
         <h3 class="bold-text">Options</h3>
         <div id="checkboxes">
           <div class="field" v-for="region in regions" :key="region.name" @change="saveRegionsToLocalStorage()">
-          <b-checkbox v-model="region.isActive">{{ region.name }}</b-checkbox>
+            <b-checkbox v-model="region.isActive">{{ region.name }}</b-checkbox>
+          </div>
+          <hr>
+          <div @change="savePrefToLocalStorage()" id="checkbox-container">
+            <b-checkbox v-model="showNames">Show<br>Names</b-checkbox>
           </div>
         </div>
       </div>
@@ -89,6 +93,7 @@ export default {
         }
       ],
       hiscores: [],
+      showNames: false
     };
   },
   created() {
@@ -100,10 +105,16 @@ export default {
     } else {
       localStorage.setItem('hiscore', JSON.stringify([]))
     }
+    if (localStorage.getItem('showNames')) {
+      localStorage.getItem('showNames') === 'true' ? this.showNames = true : this.showNames = false;
+    }
   },
   methods: {
     saveRegionsToLocalStorage: function() {
       localStorage.setItem('regions', JSON.stringify(this.regions));
+    },
+    savePrefToLocalStorage() {
+      localStorage.setItem("showNames", this.showNames);
     },
     navigateToGame: function() {
       // Check to make sure at least one region is checked
@@ -165,4 +176,17 @@ div {
   flex-direction: column;
   align-items: flex-start;
 }
+
+#checkboxes .field:last-of-type {
+  margin-bottom: -6px;
+}
+
+hr {
+  background-color: whitesmoke;
+  width: 88px;
+  margin: 0px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+}
+
 </style>
