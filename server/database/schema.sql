@@ -6,7 +6,7 @@ CREATE TABLE high_scores (
   id serial,
   name varchar(50) NOT NULL,
   score integer NOT NULL,
-  completetion_time interval NOT NULL,
+  completion_time interval NOT NULL,
   date timestamp NOT NULL,
   regions text[] NOT NULL
 );
