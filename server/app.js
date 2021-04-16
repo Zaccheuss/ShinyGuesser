@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import { queries } from './queries.js';
 import { pwd } from './directory-helper.js';
@@ -9,6 +10,7 @@ const app = express();
 const port = process.env.SERVER_PORT;
 
 app.use(express.json());
+app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 app.listen(port, () => {
@@ -19,6 +21,5 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 })
 
-// app.get('/test', queries.test);
-
-app.get('/scores', queries.getHighScores);
+app.get('/scores', queries.getAllHighScores);
+app.post('/scores', queries.insertHighScore);

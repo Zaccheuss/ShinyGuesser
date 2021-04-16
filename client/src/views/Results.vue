@@ -17,6 +17,7 @@
 
 <script>
 import SiteHeader from '../components/SiteHeader.vue';
+import ScoreService from '../services/ScoreService.js';
 export default {
   components: { SiteHeader },
   data() {
@@ -32,7 +33,6 @@ export default {
   methods: {
     checkHighScores() {
       const hiscore = JSON.parse(localStorage.getItem('hiscore'));
-      console.log(hiscore);
       // Log high score if none exist yet or if there is still room in high score storage
       if (hiscore.length < this.hiscoreStorage) { 
         this.logHighScore() 
@@ -49,14 +49,19 @@ export default {
       const hiscore = JSON.parse(localStorage.getItem('hiscore'));
       const newHiscore =
         {
+          name: "asdf",
           score: this.$route.params.numberOfCorrectGuesses,
-          completionTime: this.$route.params.completionTime
+          completionTime: this.$route.params.completionTime,
+          regions: this.getRegions()
         }
       hiscore.push(newHiscore);
       this.sortHighScores(hiscore);
       // If the new high score is sorted to the beginning of the stored high scores, then
       //it is the highest score 
       if (hiscore[0] === newHiscore) { this.isNewHiscore = true; }
+
+      newHiscore.completionTime /= 10;
+      ScoreService.postHighScore(newHiscore)
     },
     sortHighScores(hiscore) {
       function compare(a, b) {
@@ -70,6 +75,12 @@ export default {
         hiscore.pop();
       }
       localStorage.setItem('hiscore', JSON.stringify(hiscore));
+    },
+    getRegions() {
+      const allRegions = JSON.parse(localStorage.getItem('regions'));
+      return allRegions
+      .filter((region) => region.isActive === true)
+      .map((region) => region.name);
     }
   }
 }
