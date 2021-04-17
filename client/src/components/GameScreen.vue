@@ -56,27 +56,27 @@ export default {
       [
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         }
       ],

@@ -10,6 +10,8 @@ import TimeFormatter from './plugins/TimeFormatter.js';
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
 
+import "./assets/global.css";
+
 Vue.use(VueAnalytics, {
   id: "UA-187473134-1",
   router

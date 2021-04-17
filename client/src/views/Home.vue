@@ -30,14 +30,16 @@
           </ol>
         </div>
       </div>
+      <high-scores></high-scores>
     </div>
   </div>
 </template>
 
 <script>
 import SiteHeader from '../components/SiteHeader.vue';
+import HighScores from '../components/HighScores.vue';
 export default {
-  components: { SiteHeader },
+  components: { SiteHeader, HighScores },
   name: "Home",
   data() {
     return {
