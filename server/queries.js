@@ -12,18 +12,28 @@ const pool = new pg.Pool({
   port: process.env.DB_PORT,
 });
 
-const getAllHighScores = (reqest, response) => {
-  pool.query("SELECT * FROM high_scores;", (error, result) => {
-    if (error) {
-      console.log(error);
-    } else {
-      response.status(200).json(result.rows);
-    }
-  });
-};
+const getAllHighScores = (request, response) => {
+  const { regions } = request.query;
+  if (regions) {
+    pool.query("SELECT * FROM high_scores WHERE regions = $1;", [regions], (error, result) => {
+          if (error) {
+            throw error;
+          } else {
+            response.status(200).json(result.rows);
+          }
+    });
+  } else {
+    pool.query("SELECT * FROM high_scores;", (error, result) => {
+      if (error) {
+        throw error;
+      } else {
+        response.status(200).json(result.rows);
+      }
+    });
+  }
+}
 
 const insertHighScore = (request, response) => {
-  console.log(request.body);
   const { name, score, completionTime, regions } = request.body;
   pool.query(
     "INSERT INTO high_scores (name, score, completion_time, date, regions) " +
@@ -43,4 +53,4 @@ const insertHighScore = (request, response) => {
 export const queries = {
   getAllHighScores,
 	insertHighScore
-};
+}

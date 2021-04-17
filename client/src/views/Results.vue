@@ -29,6 +29,10 @@ export default {
   },
   created() {
     this.checkHighScores();
+
+    // TODO: remove this
+    ScoreService.getHighScores(JSON.parse(localStorage.getItem('regions')).filter((region) => region.isActive === true)
+        .map((region) => region.name));
   },
   methods: {
     checkHighScores() {
@@ -79,8 +83,8 @@ export default {
     getRegions() {
       const allRegions = JSON.parse(localStorage.getItem('regions'));
       return allRegions
-      .filter((region) => region.isActive === true)
-      .map((region) => region.name);
+        .filter((region) => region.isActive === true)
+        .map((region) => region.name);
     }
   }
 }
