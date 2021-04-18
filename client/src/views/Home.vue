@@ -30,7 +30,7 @@
           </ol>
         </div>
       </div>
-      <high-scores></high-scores>
+      <high-scores :regions="regions"></high-scores>
     </div>
   </div>
 </template>

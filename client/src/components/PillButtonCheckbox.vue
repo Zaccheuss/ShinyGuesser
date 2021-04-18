@@ -5,7 +5,7 @@
       v-on:click="toggleState()"
       :class="checked ? 'checked' : 'unchecked'"
     >
-      {{ value }}
+      {{ displayText }}
     </div>
   </div>
 </template>
@@ -17,7 +17,7 @@ export default {
       checked: false,
     };
   },
-  props: ["value"],
+  props: ["displayText"],
   methods: {
     toggleState() {
       this.checked = !this.checked;
@@ -39,8 +39,17 @@ export default {
   background-color: white;
 }
 
+.unchecked:hover {
+  background-color: rgba(238, 238, 238, 0.527);
+}
+
 .checked {
   background-color: #714dd2;
+  color: white;
+}
+
+.checked:hover {
+  background-color: #8d75cf;
   color: white;
 }
 

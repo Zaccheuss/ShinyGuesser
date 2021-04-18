@@ -1,19 +1,20 @@
 <template>
   <div>
     High Score Component
-    <pill-button-checkbox value="Kanto"></pill-button-checkbox>
+    <pill-button-group :values="regions"></pill-button-group>
   </div>
 
 </template>
 
 <script>
-import PillButtonCheckbox from './PillButtonCheckbox.vue';
+import PillButtonGroup from './PillButtonGroup.vue';
 export default {
-  components: { PillButtonCheckbox },
+  components: { PillButtonGroup },
   data() {
     return {
     }
   },
+  props: ["regions"],
   created() {
   }
 }
