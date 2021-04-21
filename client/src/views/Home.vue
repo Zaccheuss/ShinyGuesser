@@ -8,36 +8,28 @@
       <div id="options">
         <h3 class="bold-text">Options</h3>
         <div id="checkboxes">
-          <div class="field" v-for="region in regions" :key="region.name" @change="saveRegionsToLocalStorage()">
+          <div class="field" v-for="region in regions" :key="region.name" @change="updateRegions()">
             <b-checkbox v-model="region.isActive">{{ region.name }}</b-checkbox>
           </div>
           <hr>
-          <div @change="savePrefToLocalStorage()" id="checkbox-container">
+          <div @change="updateShowNames()" id="checkbox-container">
             <b-checkbox v-model="showNames">Show<br>Names</b-checkbox>
           </div>
         </div>
       </div>
       <div id="high-scores">
         <h3 class="bold-text">High Scores</h3>
-        <p v-if="hiscores.length === 0">
-          You don't have any high scores yet.
-        </p>
-        <div v-else>
-          <ol>
-            <li v-for="score in hiscores" :key="score.completionTime + score.score"> 
-              {{ score.score }} correct in {{ formatTime(score.completionTime) }}
-            </li>
-          </ol>
-        </div>
+        <high-scores></high-scores>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import HighScores from '../components/HighScores.vue';
 import SiteHeader from '../components/SiteHeader.vue';
 export default {
-  components: { SiteHeader },
+  components: { SiteHeader, HighScores },
   name: "Home",
   data() {
     return {
@@ -100,21 +92,25 @@ export default {
     if (localStorage.getItem('regions')) {
       this.regions = JSON.parse(localStorage.getItem('regions'));
     }
+
     if (localStorage.getItem('hiscore')) {
       this.hiscores = JSON.parse(localStorage.getItem('hiscore'));
     } else {
       localStorage.setItem('hiscore', JSON.stringify([]))
     }
+
     if (localStorage.getItem('showNames')) {
       localStorage.getItem('showNames') === 'true' ? this.showNames = true : this.showNames = false;
     }
   },
   methods: {
-    saveRegionsToLocalStorage: function() {
-      localStorage.setItem('regions', JSON.stringify(this.regions));
+    updateRegions: function() {
+      localStorage.setItem("regions", JSON.stringify(this.regions));
+      this.$store.commit("updateRegions", this.regions);
     },
-    savePrefToLocalStorage() {
+    updateShowNames() {
       localStorage.setItem("showNames", this.showNames);
+      this.$store.commit("updateShowNames", this.showNames);
     },
     navigateToGame: function() {
       // Check to make sure at least one region is checked
