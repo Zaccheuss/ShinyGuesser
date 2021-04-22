@@ -3,15 +3,30 @@
     <p v-if="highScores.length === 0">
       No High Scores For These Regions
     </p>
-    <div v-else>
-      <ol>
-        <li
-          v-for="score in highScores"
-          :key="score.name + score.score + score.date"
-        >
-          {{ score.name }} got {{ score.score }} points in {{ score.completion_time.milliseconds }}
-        </li>
-      </ol>
+    <div v-else class="table">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">name</th>
+            <th scope="col">score</th>
+            <th scope="col">time</th>
+            <th scope="col">date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr 
+            v-for="(score, index) in highScores"
+            :key="score.id"
+          >
+            <th scope="row">{{ index + 1 }}</th>
+            <td>{{ score.name }}</td>
+            <td>{{ score.score }}</td>
+            <td>{{ formatTime(score.milliseconds / 100) }}</td>
+            <td>{{ score.date }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
@@ -35,10 +50,10 @@ export default {
   },
   methods: {
     getHighScores() {
-        ScoreService.getHighScores(this.activeRegions).then((response) => {
-          console.log(response.data);
-          this.highScores = response.data;
-        });
+      ScoreService.getHighScores(this.activeRegions).then((response) => {
+        console.log(response.data);
+        this.highScores = response.data;
+      });
     },
   },
   watch: {
@@ -49,4 +64,11 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+
+.table {
+  border: 2px gainsboro solid;
+  border-radius: 12px;
+}
+
+</style>

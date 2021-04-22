@@ -15,7 +15,12 @@ const pool = new pg.Pool({
 const getAllHighScores = (request, response) => {
   const { regions } = request.query;
   // if (regions) {
-    pool.query("SELECT * FROM high_scores WHERE regions = $1;", [regions], (error, result) => {
+
+  //select id, name, score, extract(milliseconds from completion_time) as milliseconds, date, regions from high_scores;
+    pool.query("SELECT id, name, score, extract(milliseconds from completion_time) as milliseconds, to_char(date, 'MM-DD-YYYY') as date, regions " + 
+               "FROM high_scores " +
+               "WHERE regions = $1 " + 
+               "ORDER BY score DESC;", [regions], (error, result) => {
           if (error) {
             throw error;
           } else {

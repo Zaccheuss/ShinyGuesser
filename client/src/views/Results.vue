@@ -29,10 +29,6 @@ export default {
   },
   created() {
     this.checkHighScores();
-
-    // TODO: remove this
-    ScoreService.getHighScores(JSON.parse(localStorage.getItem('regions')).filter((region) => region.isActive === true)
-        .map((region) => region.name));
   },
   methods: {
     checkHighScores() {
@@ -64,7 +60,8 @@ export default {
       //it is the highest score 
       if (hiscore[0] === newHiscore) { this.isNewHiscore = true; }
 
-      newHiscore.completionTime /= 10;
+      newHiscore.completionTime /= 10.0;
+      console.log(newHiscore);
       ScoreService.postHighScore(newHiscore)
     },
     sortHighScores(hiscore) {

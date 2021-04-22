@@ -151,15 +151,13 @@ div {
 }
 
 #high-scores {
-  /* background-color: blanchedalmond; */
-  width: 250px;
+  width: 400px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
 #options {
-  /* background-color: cadetblue; */
   display: flex;
   flex-direction: column;
   justify-content: center;
