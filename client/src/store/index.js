@@ -7,13 +7,13 @@ export default new Vuex.Store({
   state: {
     regions: [2],
     showNames: null,
-    lastUsedName: null,
+    name: null,
   },
   mutations: {
     initiliazeDataStore() {
       this.state.regions = JSON.parse(localStorage.getItem("regions"));
       this.state.showNames = JSON.parse(localStorage.getItem("showNames"));
-      this.state.lastUsedName = JSON.parse(localStorage.getItem("lastUsedName"));
+      this.state.name = JSON.parse(localStorage.getItem("name"));
     },
     updateRegions(state, payload) {
       this.state.regions = payload;
