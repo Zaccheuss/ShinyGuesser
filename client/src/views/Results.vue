@@ -41,8 +41,6 @@ export default {
         completionTime: this.$route.params.completionTime,
         regions: this.$store.getters.getActiveRegions,
       };
-
-      newHiscore.completionTime /= 10.0;
       ScoreService.postHighScore(newHiscore);
     },
   },

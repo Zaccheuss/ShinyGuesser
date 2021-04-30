@@ -14,29 +14,17 @@ const pool = new pg.Pool({
 
 const getAllHighScores = (request, response) => {
   const { regions } = request.query;
-  // if (regions) {
-
-  //select id, name, score, extract(milliseconds from completion_time) as milliseconds, date, regions from high_scores;
-    pool.query("SELECT id, name, score, extract(milliseconds from completion_time) as milliseconds, to_char(date, 'MM-DD-YYYY') as date, regions " + 
+    pool.query("SELECT id, name, score, completion_time, to_char(date, 'MM-DD-YYYY') as date, regions " + 
                "FROM high_scores " +
                "WHERE regions = $1 " + 
-               "ORDER BY score DESC;", [regions], (error, result) => {
+               "ORDER BY score DESC " +
+               "LIMIT 10;", [regions], (error, result) => {
           if (error) {
             throw error;
           } else {
             response.status(200).json(result.rows);
           }
     });
-  // } 
-  // else {
-  //   pool.query("SELECT * FROM high_scores;", (error, result) => {
-  //     if (error) {
-  //       throw error;
-  //     } else {
-  //       response.status(200).json(result.rows);
-  //     }
-  //   });
-  // }
 }
 
 const insertHighScore = (request, response) => {
@@ -58,5 +46,6 @@ const insertHighScore = (request, response) => {
 
 export const queries = {
   getAllHighScores,
-	insertHighScore
+	insertHighScore,
+  checkIfScoreInTopScores
 }

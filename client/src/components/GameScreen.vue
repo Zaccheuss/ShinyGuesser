@@ -16,6 +16,7 @@
         v-on:click="onSpriteClick(pokeArray[n - 1])"
       >
         <img
+          class="no-select"
           v-bind:src="pokeArray[n - 1].url"
           alt="pokemon sprite to guess"
           :key="pokeArray[n - 1].url"

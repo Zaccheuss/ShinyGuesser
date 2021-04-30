@@ -22,7 +22,7 @@
             <th scope="row">{{ index + 1 }}</th>
             <td>{{ score.name }}</td>
             <td>{{ score.score }}</td>
-            <td>{{ formatTime(score.milliseconds / 100) }}</td>
+            <td>{{ formatTime(score.completion_time) }}</td>
             <td>{{ score.date }}</td>
           </tr>
         </tbody>
