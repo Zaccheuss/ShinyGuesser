@@ -51,7 +51,6 @@ export default {
   methods: {
     getHighScores() {
       ScoreService.getHighScores(this.activeRegions).then((response) => {
-        console.log(response.data);
         this.highScores = response.data;
       });
     },
