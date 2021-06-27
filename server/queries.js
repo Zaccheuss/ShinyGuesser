@@ -1,35 +1,24 @@
-import dotenv from "dotenv";
-import pg from "pg";
-import { pwd } from "./directory-helper.js";
+import { dbPool } from "./config.js";
 
-dotenv.config({ path: pwd + "/.env" });
-
-const pool = new pg.Pool({
-  user: process.env.DB_USER,
-  host: process.env.DB_HOST,
-  database: process.env.DB_NAME,
-  password: process.env.DB_PASSWORD,
-  port: process.env.DB_PORT,
-});
-
-const getAllHighScores = (request, response) => {
+function getAllHighScores(request, response) {
   const { regions } = request.query;
-    pool.query("SELECT id, name, score, completion_time, to_char(date, 'MM-DD-YYYY') as date, regions " + 
-               "FROM high_scores " +
-               "WHERE regions = $1 " + 
-               "ORDER BY score DESC " +
-               "LIMIT 10;", [regions], (error, result) => {
-          if (error) {
-            throw error;
-          } else {
-            response.status(200).json(result.rows);
-          }
-    });
+  dbPool.query("SELECT id, name, score, completion_time, to_char(date, 'MM-DD-YYYY') as date, regions " + 
+             "FROM high_scores " +
+             "WHERE regions = $1 " + 
+             "ORDER BY score DESC " +
+             "LIMIT 10;", 
+             [regions], 
+             (error, result) => {
+                if (error) {
+                  throw error;
+                }
+                response.status(200).json(result.rows);
+              });
 }
 
-const insertHighScore = (request, response) => {
+function insertHighScore(request, response) {
   const { name, score, completionTime, regions } = request.body;
-  pool.query(
+  dbPool.query(
     "INSERT INTO high_scores (name, score, completion_time, date, regions) " +
     "VALUES ($1, $2, $3, NOW(), $4) RETURNING id;",
     [name, score, completionTime, regions],
@@ -46,6 +35,5 @@ const insertHighScore = (request, response) => {
 
 export const queries = {
   getAllHighScores,
-	insertHighScore,
-  checkIfScoreInTopScores
+	insertHighScore
 }
