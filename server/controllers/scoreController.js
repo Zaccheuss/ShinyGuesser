@@ -5,7 +5,7 @@ function getAllHighScores(request, response) {
 }
 
 function insertHighScore(request, response) {
-   queries.insertHighScore(request, response);
+  queries.insertHighScore(request, response);
 }
 
 export const scoreController = { 
