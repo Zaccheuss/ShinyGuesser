@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <site-header />
     <game-timer @onTick="handleTick($event)" />
     <div class="card-container">
@@ -180,16 +180,12 @@ export default {
 </script>
 
 <style scoped>
-.container {
-  text-align: center;
-  width: 100vw;
-}
-
 #img-container {
   margin: 20px 20px 20px 0;
   display: inline-block;
   position: relative;
   width: 136px;
+  cursor: pointer;
 }
 
 #img-container:hover {

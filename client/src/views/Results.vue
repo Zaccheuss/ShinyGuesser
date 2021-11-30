@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div>
     <site-header />
     <h3>
       Final score
@@ -76,11 +76,6 @@ export default {
 </script>
 
 <style scoped>
-
-.container {
-  text-align: center;
-}
-
 h3 {
   font-size: 40px;
   font-weight: bold;

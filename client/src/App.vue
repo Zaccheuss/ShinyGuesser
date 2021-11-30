@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div class="main-container">
     <router-view />
   </div>
 </template>
@@ -21,7 +21,10 @@ html, body {
   height: 100%;
 }
 
-.container {
+.main-container {
   height: 100%;
+  width: 100%;
+  margin: 0;
+  text-align: center;
 }
 </style>

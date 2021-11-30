@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="header-contents">
     <header>
-    <h1>Pokemon Shiny Finder</h1>
-    <p>Test your Pokemon knowledge by choosing the shiny Pokemon</p>
-    <hr>
+      <h1>Pokemon Shiny Finder</h1>
+      <p>Test your Pokemon knowledge by choosing the shiny Pokemon</p>
+      <hr>
     </header>
-    <theme-switch />
+    <theme-switch class="theme-switch" />
   </div>
 </template>
 
@@ -25,6 +25,12 @@ export default {
 <style scoped>
   @import url('https://fonts.googleapis.com/css2?family=Oleo+Script&display=swap');
 
+  .theme-switch {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+  }
+
   h1 {
     font-family: 'Oleo Script', cursive;
     font-size: 70px;
@@ -43,11 +49,6 @@ export default {
     margin-bottom: 4px;
   }
 
-  div {
-    margin-right: 6px;
-    margin-left: 6px;
-  }
-
   @media screen and (max-width: 1020px) {
     h1 {
       font-size: 11vw;
@@ -59,6 +60,10 @@ export default {
     header {
       padding-top: 0px;
       padding-bottom: 0px;
+    }
+
+    .theme-switch {
+      top: 4.25em;
     }
 
     /* hide tagline on mobile */
