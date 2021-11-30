@@ -56,27 +56,27 @@ export default {
       [
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         }
       ],
@@ -190,17 +190,12 @@ export default {
   display: inline-block;
   position: relative;
   width: 136px;
-  /* height: 165px; */
 }
 
 #img-container:hover {
   background-color: rgba(238, 238, 238, 0.527);
   transition: box-shadow 100ms linear;
   box-shadow: none;
-}
-
-.card-container {
-  /* height: 200px; */
 }
 
 .green {
@@ -211,12 +206,17 @@ export default {
   animation: wrong-move 650ms 1 ease;
 }
 
+.box {
+  background-color: var(--tile-color);
+  color: var(--text-primary-color);
+}
+
 @keyframes correct-move {
   from {
     background-color: green;
   }
   to {
-    background-color: white;
+    background-color: var(--tile-color);
   }
 }
 
@@ -225,7 +225,7 @@ export default {
     background-color: red;
   }
   to {
-    background-color: white;
+    background-color: var(--tile-color);
   }
 }
 

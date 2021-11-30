@@ -1,0 +1,35 @@
+[theme="light"] {
+  --background-color: #dee4e7;
+  --text-primary-color: #000000;
+  --text-tile-color: #000000;
+  --tile-color: #ffffff;
+  --logo-color: #592dd0;
+}
+
+[theme="dark"] {
+  --background-color: #37474f;
+  --text-primary-color: #cfd8dc;
+  --text-tile-color: #000000;
+  --tile-color: #506772;
+  --logo-color: #cfd8dc;
+}
+
+body {
+  --background-color: #dee4e7;
+  --text-primary-color: #000000;
+  --text-tile-color: #000000;
+  --tile-color: #ffffff;
+  --logo-color: #592dd0;
+
+  background-color: var(--background-color);
+  color: var(--text-primary-color);
+}
+
+h1 {
+  color: var(--logo-color);
+}
+
+box {
+  color: var(--text-primary-color);
+  background-color: var(--tile-color);
+}

@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="home container">
     <site-header />
     <div class="button-container">
       <b-button v-on:click="navigateToGame()" type="is-primary">Start Game</b-button>
@@ -155,7 +155,6 @@ div {
 }
 
 #high-scores {
-  /* background-color: blanchedalmond; */
   width: 250px;
   display: flex;
   flex-direction: column;
@@ -163,7 +162,6 @@ div {
 }
 
 #options {
-  /* background-color: cadetblue; */
   display: flex;
   flex-direction: column;
   justify-content: center;

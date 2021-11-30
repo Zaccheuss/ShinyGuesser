@@ -5,12 +5,20 @@
     <p>Test your Pokemon knowledge by choosing the shiny Pokemon</p>
     <hr>
     </header>
+    <theme-switch />
   </div>
 </template>
 
 <script>
+import ThemeSwitch from "./ThemeSwitch.vue"
 export default {
+  components: { ThemeSwitch },
+  mounted() {
+      const currentTheme = localStorage.getItem("theme");
+      document.body.setAttribute("theme", currentTheme);
 
+
+  }
 }
 </script>
 
@@ -22,7 +30,6 @@ export default {
     font-size: 70px;
     margin-bottom: -20px;
     padding-bottom: 0px;
-    color: rgb(0, 0, 160);
   }
 
   p {
