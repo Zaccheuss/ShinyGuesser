@@ -17,6 +17,10 @@ export default {
   text-align: center;
 }
 
+html {
+  overflow-y: hidden !important;
+}
+
 html, body {
   height: 100%;
 }

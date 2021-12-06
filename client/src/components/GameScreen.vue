@@ -1,6 +1,6 @@
 <template>
   <div>
-    <site-header />
+    <site-header v-if="!isMobile"/>
     <game-timer @onTick="handleTick($event)" />
     <div class="card-container">
       <div
@@ -88,11 +88,13 @@ export default {
       answerCorrect: false,
       answerIncorrect: false,
       testImages: [],
+      isMobile: false
     };
   },
   created() {
     this.generatePokemonNumberRange();
     this.cacheImages();
+    this.isMobile = screen.width <= 760;
   },
   mounted() {
     this.showRound();
@@ -174,7 +176,7 @@ export default {
     },
     handleTick(time) {
       this.time = time;
-    }
+    },
   },
 };
 </script>
@@ -232,10 +234,16 @@ export default {
     margin: 4px 0px 4px 0px;
     padding: 0px;
     height: 15vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
 
-  #checkbox-container {
-    display: none;
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   img {
