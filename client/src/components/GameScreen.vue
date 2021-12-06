@@ -1,6 +1,6 @@
 <template>
-  <div class="container">
-    <site-header />
+  <div>
+    <site-header v-if="!isMobile"/>
     <game-timer @onTick="handleTick($event)" />
     <div class="card-container">
       <div
@@ -57,27 +57,27 @@ export default {
       [
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         },
         {
           url: null,
-          name: 'bruh',
+          name: '',
           shiny: null
         }
       ],
@@ -89,11 +89,13 @@ export default {
       answerCorrect: false,
       answerIncorrect: false,
       testImages: [],
+      isMobile: false
     };
   },
   created() {
     this.generatePokemonNumberRange();
     this.cacheImages();
+    this.isMobile = screen.width <= 760;
   },
   mounted() {
     this.showRound();
@@ -175,33 +177,24 @@ export default {
     },
     handleTick(time) {
       this.time = time;
-    }
+    },
   },
 };
 </script>
 
 <style scoped>
-.container {
-  text-align: center;
-  width: 100vw;
-}
-
 #img-container {
   margin: 20px 20px 20px 0;
   display: inline-block;
   position: relative;
   width: 136px;
-  /* height: 165px; */
+  cursor: pointer;
 }
 
 #img-container:hover {
   background-color: rgba(238, 238, 238, 0.527);
   transition: box-shadow 100ms linear;
   box-shadow: none;
-}
-
-.card-container {
-  /* height: 200px; */
 }
 
 .green {
@@ -212,12 +205,17 @@ export default {
   animation: wrong-move 650ms 1 ease;
 }
 
+.box {
+  background-color: var(--tile-color);
+  color: var(--text-primary-color);
+}
+
 @keyframes correct-move {
   from {
     background-color: green;
   }
   to {
-    background-color: white;
+    background-color: var(--tile-color);
   }
 }
 
@@ -226,7 +224,7 @@ export default {
     background-color: red;
   }
   to {
-    background-color: white;
+    background-color: var(--tile-color);
   }
 }
 
@@ -237,10 +235,16 @@ export default {
     margin: 4px 0px 4px 0px;
     padding: 0px;
     height: 15vh;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
   }
 
-  #checkbox-container {
-    display: none;
+  .card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   img {

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-container">
     <router-view />
   </div>
 </template>
@@ -20,6 +20,17 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+
+html, body {
+  height: 100%;
+}
+
+.main-container {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  text-align: center;
 }
 
 .no-select {

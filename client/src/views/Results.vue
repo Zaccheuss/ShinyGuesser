@@ -1,110 +1,88 @@
 <template>
-  <div class="container">
+  <div>
     <site-header />
     <h3>
       Final score
     </h3>
-    <p>
-      {{ $route.params.numberOfCorrectGuesses }} correct out of
-      {{ $route.params.numberOfQuestions }}
-    </p>
-    <p class="pad-bottom">Completed in {{ formatTime($route.params.completionTime) }}</p>
-    <p v-if="this.isHighScore">This is a new high score</p>
-    <p v-else>You did not place in the top ten score for this region</p>
+    <p>{{ $route.params.numberOfCorrectGuesses }} correct out of {{ $route.params.numberOfQuestions }}</p>
+    <p>Completed in {{ formatTime($route.params.completionTime) }}</p>
 
-    <b-field label="Name" class=name-input label-position="on-border">
-      <b-input v-model="name"></b-input>
-    </b-field>
+    <p v-if="isNewHiscore">This is a new hiscore!</p>
 
     <router-link :to="{ name: 'Home' }">
-      <b-button @click="logHighScore()">Submit Score</b-button>
+      <b-button>Back to Start</b-button>
     </router-link>
   </div>
 </template>
 
 <script>
-import SiteHeader from "../components/SiteHeader.vue";
-import ScoreService from "../services/ScoreService.js";
+import SiteHeader from '../components/SiteHeader.vue';
 export default {
   components: { SiteHeader },
   data() {
     return {
-      name: null,
-      isHighScore: false,
-      score: null,
-      completionTime: null,
-    };
+      isNewHiscore: false,
+      isInHiScores: false,
+      hiscoreStorage: 5,
+    }
   },
   created() {
-    this.name = localStorage.getItem("name");
-    this.score = this.$route.params.numberOfCorrectGuesses;
-    this.completionTime = this.$route.params.completionTime;
-    this.checkIfHighScore();
-  },
-    computed: {
-    activeRegions() {
-      return this.$store.getters.getActiveRegions;
-    },
+    this.checkHighScores();
   },
   methods: {
-    // Always log the score in the database regardless of if is in the top ten or not in case fraudulent scores
-    // ever need to be removed
-    logHighScore() {
-      if (this.score > 0) {
-        const newHiscore = {
-          name: this.name,
-          score: this.score,
-          completionTime: this.completionTime,
-          regions: this.$store.getters.getActiveRegions,
-        };
-        ScoreService.postHighScore(newHiscore);
-      }
-    },
-    checkIfHighScore() {
-      ScoreService.getHighScores(this.activeRegions).then((response) => {
-        console.log(response.data, response.data.length < 10);
-
-        const lowestHighScore = response.data[response.data.length - 1];
-
-        if (response.data.length < 10 || lowestHighScore.score < this.score) { 
-          this.isHighScore = true;
-        } else if (lowestHighScore.score === this.score) {
-          if (this.completionTime < lowestHighScore.completionTime) {
-            this.isHighScore = true;
+    checkHighScores() {
+      const hiscore = JSON.parse(localStorage.getItem('hiscore'));
+      console.log(hiscore);
+      // Log high score if none exist yet or if there is still room in high score storage
+      if (hiscore.length < this.hiscoreStorage) { 
+        this.logHighScore() 
+      } else { 
+        hiscore.forEach(element => {
+          if (element.score < this.$route.params.numberOfCorrectGuesses) {
+            this.isInHiScores = true;
           }
+        });
+      }
+      if (this.isInHiScores) { this.logHighScore(); }
+    },
+    logHighScore() {
+      const hiscore = JSON.parse(localStorage.getItem('hiscore'));
+      const newHiscore =
+        {
+          score: this.$route.params.numberOfCorrectGuesses,
+          completionTime: this.$route.params.completionTime
         }
-      });
-    }
-  },
-  watch: {
-    name: function () {
-      localStorage.setItem("name", this.name);
+      hiscore.push(newHiscore);
+      this.sortHighScores(hiscore);
+      // If the new high score is sorted to the beginning of the stored high scores, then
+      //it is the highest score 
+      if (hiscore[0] === newHiscore) { this.isNewHiscore = true; }
+    },
+    sortHighScores(hiscore) {
+      function compare(a, b) {
+        if (a.score === b.score) { //sort based on time if scores are equal
+          return a.completionTime > b.completionTime ? 1 : -1;
+        }
+        return a.score > b.score ? -1 : 1;
+      }
+      hiscore.sort(compare);
+      if (hiscore.length > this.hiscoreStorage) { //Only store the top 5 hiscores, remove otherwise
+        hiscore.pop();
+      }
+      localStorage.setItem('hiscore', JSON.stringify(hiscore));
     }
   }
-};
+}
 </script>
 
 <style scoped>
-.container {
-  text-align: center;
-}
-
-.pad-bottom {
-  margin-bottom: 20px;
-}
-
-.name-input {
-  width: 25vw;
-  margin: auto;
-  display: block;
-}
-
 h3 {
   font-size: 40px;
   font-weight: bold;
 }
 
 button {
-  margin-top: 10px;
+  margin-top: 20px;
 }
+
 </style>

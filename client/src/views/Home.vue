@@ -92,13 +92,11 @@ export default {
     if (localStorage.getItem('regions')) {
       this.regions = JSON.parse(localStorage.getItem('regions'));
     }
-
     if (localStorage.getItem('hiscore')) {
       this.hiscores = JSON.parse(localStorage.getItem('hiscore'));
     } else {
       localStorage.setItem('hiscore', JSON.stringify([]))
     }
-
     if (localStorage.getItem('showNames')) {
       localStorage.getItem('showNames') === 'true' ? this.showNames = true : this.showNames = false;
     }
