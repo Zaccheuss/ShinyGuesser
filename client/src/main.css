@@ -1,6 +1,7 @@
 [theme="light"] {
   --background-color: #dee4e7;
   --text-primary-color: #000000;
+  --text-secondary-color: #5e5e5e;
   --text-tile-color: #000000;
   --tile-color: #ffffff;
   --logo-color: #592dd0;
@@ -9,6 +10,7 @@
 [theme="dark"] {
   --background-color: #37474f;
   --text-primary-color: #cfd8dc;
+  --text-secondary-color: #818181;
   --text-tile-color: #000000;
   --tile-color: #506772;
   --logo-color: #cfd8dc;

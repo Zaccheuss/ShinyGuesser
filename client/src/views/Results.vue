@@ -7,10 +7,21 @@
     <p>{{ $route.params.numberOfCorrectGuesses }} correct out of {{ $route.params.numberOfQuestions }}</p>
     <p>Completed in {{ formatTime($route.params.completionTime) }}</p>
 
-    <p v-if="isNewHiscore">This is a new hiscore!</p>
+      <div class="high-score-container">
+        <b-checkbox v-model="saveHighScorePref">Save High Score</b-checkbox>
+        <div class="container" v-if="saveHighScorePref">
+          <div class="input-label">Name</div>
+          <b-field horizontal>
+              <b-input v-model="highScoreName"></b-input>
+          </b-field>
+        </div>
+        <div class="field-subtext" v-if="saveHighScorePref">Score will be saved automatically upon returning Home</div>
+      </div>
 
     <router-link :to="{ name: 'Home' }">
-      <b-button>Back to Start</b-button>
+      <b-button 
+        v-on:click="logHighScore(); updateHighScoreName()"
+      >Back to Start</b-button>
     </router-link>
   </div>
 </template>
@@ -21,55 +32,31 @@ export default {
   components: { SiteHeader },
   data() {
     return {
-      isNewHiscore: false,
-      isInHiScores: false,
-      hiscoreStorage: 5,
+      highScoreName: "",
+      saveHighScorePref: true
     }
   },
   created() {
-    this.checkHighScores();
+    if (localStorage.getItem("highScoreName")) {
+      this.highScoreName = JSON.parse(localStorage.getItem("highScoreName"));
+    }
+    if (localStorage.getItem("saveHighScorePref")) {
+      this.saveHighScorePref = JSON.parse(localStorage.getItem("saveHighScorePref"));
+    }
   },
   methods: {
-    checkHighScores() {
-      const hiscore = JSON.parse(localStorage.getItem('hiscore'));
-      console.log(hiscore);
-      // Log high score if none exist yet or if there is still room in high score storage
-      if (hiscore.length < this.hiscoreStorage) { 
-        this.logHighScore() 
-      } else { 
-        hiscore.forEach(element => {
-          if (element.score < this.$route.params.numberOfCorrectGuesses) {
-            this.isInHiScores = true;
-          }
-        });
-      }
-      if (this.isInHiScores) { this.logHighScore(); }
-    },
     logHighScore() {
-      const hiscore = JSON.parse(localStorage.getItem('hiscore'));
-      const newHiscore =
-        {
-          score: this.$route.params.numberOfCorrectGuesses,
-          completionTime: this.$route.params.completionTime
-        }
-      hiscore.push(newHiscore);
-      this.sortHighScores(hiscore);
-      // If the new high score is sorted to the beginning of the stored high scores, then
-      //it is the highest score 
-      if (hiscore[0] === newHiscore) { this.isNewHiscore = true; }
+      if (this.saveHighScorePref) {
+        console.log("log");
+      }
     },
-    sortHighScores(hiscore) {
-      function compare(a, b) {
-        if (a.score === b.score) { //sort based on time if scores are equal
-          return a.completionTime > b.completionTime ? 1 : -1;
-        }
-        return a.score > b.score ? -1 : 1;
+    updateHighScoreName() {
+      if (this.saveHighScorePref) {
+        localStorage.setItem("highScoreName", JSON.stringify(this.highScoreName));
+        localStorage.setItem("saveHighScorePref", JSON.stringify(this.saveHighScorePref));
+        this.$store.commit("highScoreName", this.highScoreName);
+        this.$store.commit("saveHighScorePref", this.saveHighScorePref);
       }
-      hiscore.sort(compare);
-      if (hiscore.length > this.hiscoreStorage) { //Only store the top 5 hiscores, remove otherwise
-        hiscore.pop();
-      }
-      localStorage.setItem('hiscore', JSON.stringify(hiscore));
     }
   }
 }
@@ -83,6 +70,26 @@ h3 {
 
 button {
   margin-top: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5em;
+}
+
+.input-label {
+  color: var(--text-primary-color);
+}
+
+.high-score-container {
+  margin-top: 1em;
+}
+
+.field-subtext {
+  color: var(--text-secondary-color);
+  size: 0.9em;
 }
 
 </style>
