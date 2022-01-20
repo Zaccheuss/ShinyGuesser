@@ -149,7 +149,7 @@ div {
 }
 
 #high-scores {
-  width: 400px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   align-items: center;
