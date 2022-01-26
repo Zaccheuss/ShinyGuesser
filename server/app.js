@@ -7,7 +7,7 @@ import { router } from "./routes/scoreRoutes.js";
 dotenv.config({ path: pwd + "/.env" });
 
 const app = express();
-const port = process.env.SERVER_PORT;
+const port = process.env.PORT || 5000;
 
 app.use(express.json());
 app.use(cors());
