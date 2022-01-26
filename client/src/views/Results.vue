@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import SiteHeader from '../components/SiteHeader.vue';
+import SiteHeader from "../components/SiteHeader.vue";
+import ScoreSerivce from "@/services/ScoreService.js";
 export default {
   components: { SiteHeader },
   data() {
@@ -47,7 +48,15 @@ export default {
   methods: {
     logHighScore() {
       if (this.saveHighScorePref) {
-        console.log("log");
+        const newHiscore =
+        {
+          name: this.highScoreName,
+          score: this.$route.params.numberOfCorrectGuesses,
+          completionTime: this.$route.params.completionTime,
+          regions: this.getRegions()
+        }
+
+        ScoreSerivce.postHighScore(newHiscore)
       }
     },
     updateHighScoreName() {
@@ -57,6 +66,12 @@ export default {
         this.$store.commit("highScoreName", this.highScoreName);
         this.$store.commit("saveHighScorePref", this.saveHighScorePref);
       }
+    },
+    getRegions() {
+      const allRegions = JSON.parse(localStorage.getItem('regions'));
+      return allRegions
+        .filter((region) => region.isActive === true)
+        .map((region) => region.name);
     }
   }
 }
