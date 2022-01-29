@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const api = 'http://localhost:3000';
+const api = process.env.VUE_APP_HIGH_SCORE_API_URL;
+console.log(api);
 
 export default {
 
