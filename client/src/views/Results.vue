@@ -18,11 +18,9 @@
         <div class="field-subtext" v-if="saveHighScorePref">Score will be saved automatically upon returning Home</div>
       </div>
 
-    <router-link :to="{ name: 'Home' }">
       <b-button 
         v-on:click="logHighScore(); updateHighScoreName()"
       >Back to Start</b-button>
-    </router-link>
   </div>
 </template>
 
@@ -56,7 +54,11 @@ export default {
           regions: this.getRegions()
         }
 
-        ScoreSerivce.postHighScore(newHiscore)
+        ScoreSerivce.postHighScore(newHiscore).then(() => {
+          this.$router.push( {name: "Home"} )
+        })
+      } else {
+        this.$router.push( {name: "Home"} )
       }
     },
     updateHighScoreName() {
