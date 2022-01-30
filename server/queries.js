@@ -1,11 +1,11 @@
 import { dbPool } from "./config.js";
 
-function getAllHighScores(request, response) {
+function getHighScores(request, response) {
   const { regions } = request.query;
   dbPool.query("SELECT id, name, score, completion_time, to_char(date, 'MM-DD-YYYY') as date, regions " + 
              "FROM high_scores " +
              "WHERE regions = $1 " + 
-             "ORDER BY score DESC " +
+             "ORDER BY score DESC, completion_time " +
              "LIMIT 10;", 
              [regions], 
              (error, result) => {
@@ -34,6 +34,6 @@ function insertHighScore(request, response) {
 };
 
 export const queries = {
-  getAllHighScores,
+  getHighScores,
 	insertHighScore
 }

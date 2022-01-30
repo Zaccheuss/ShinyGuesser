@@ -5,7 +5,7 @@ import { validationResult, check } from "express-validator";
 export const router = express.Router();
 
 router.get("/scores",
-  scoreController.getAllHighScores
+  scoreController.getHighScores
 );
 router.post("/scores", 
   [

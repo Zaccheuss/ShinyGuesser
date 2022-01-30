@@ -1,7 +1,7 @@
 import { queries } from "../queries.js"
 
-function getAllHighScores(request, response) {
-  queries.getAllHighScores(request, response);
+function getHighScores(request, response) {
+  queries.getHighScores(request, response);
 }
 
 function insertHighScore(request, response) {
@@ -9,6 +9,6 @@ function insertHighScore(request, response) {
 }
 
 export const scoreController = { 
-  getAllHighScores, 
+  getHighScores, 
   insertHighScore
 }
