@@ -1,6 +1,6 @@
 # Pokemon Shiny Guesser
 
-[<font size="3">Try the game</font>](https://boring-curran-e4ae5e.netlify.app/)
+[<font size="3">Try the game</font>](https://shinyguesser.com)
 
 A web application that tests users on their Pokemon knowledge by allowing them to guess which pokemon is shiny from a lineup. Uses the [PokeAPI](https://pokeapi.co/) to grab sprites and other information.
 
