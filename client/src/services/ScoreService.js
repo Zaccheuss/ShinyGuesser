@@ -5,11 +5,11 @@ console.log(api);
 
 export default {
 
-  getHighScores(regions) {
-    return axios.get(api + '/scores', { params: { regions }})
+  async getHighScores(regions) {
+    return await axios.get(api + '/scores', { params: { regions }})
   },
 
-  postHighScore(score) {
-    return axios.post(api + '/scores', score);
+  async postHighScore(score) {
+    return await axios.post(api + '/scores', score);
   }
 }

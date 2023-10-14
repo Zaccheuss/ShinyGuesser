@@ -1,8 +1,7 @@
 <template>
   <div>
-    <p v-if="highScores.length === 0">
-      No High Scores For These Regions
-    </p>
+    <p v-if="loading">Loading...</p>
+    <p v-else-if="errorMessage">{{ errorMessage }}</p>
     <div v-else class="table">
       <table>
         <thead>
@@ -38,26 +37,35 @@ export default {
   data() {
     return {
       highScores: [],
+      loading: true,
+      errorMessage: undefined
     };
-  },
-  created() {
-    this.getHighScores();
   },
   computed: {
     activeRegions() {
       return this.$store.getters.getActiveRegions;
     },
   },
-  methods: {
-    getHighScores() {
-      ScoreService.getHighScores(this.activeRegions).then((response) => {
-        this.highScores = response.data;
-      });
-    },
-  },
   watch: {
     activeRegions() {
       this.getHighScores();
+    },
+  },
+  created() {
+    this.getHighScores();
+  },
+  methods: {
+    async getHighScores() {
+      try { 
+        await ScoreService.getHighScores(this.activeRegions).then((response) => {
+          this.highScores = response.data;
+        });
+      } catch (e) {
+        this.errorMessage = 'There was an error loading the high scores'
+        console.error('Problem getting high scores', e)
+      } finally {
+        this.loading = false
+      }
     },
   },
 };
