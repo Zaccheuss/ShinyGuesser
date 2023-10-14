@@ -18,14 +18,14 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.5.4",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-router": "^5.0.8",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "^5.0.8",
-    "@babel/eslint-parser": "^7.5.4",
     "eslint": "^8.36.0",
-    "eslint-plugin-vue": "^9.10.0",
+    "eslint-plugin-vue": "^9.17.0",
     "vue-template-compiler": "^2.6.11"
   }
 }
