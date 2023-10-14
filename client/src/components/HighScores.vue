@@ -1,6 +1,7 @@
 <template>
   <div>
-    <p v-if="loading">Loading...</p>
+    <p v-if="activeRegions.length === 0">Select a region to load high scores</p>
+    <p v-else-if="loading">Loading...</p>
     <p v-else-if="errorMessage">{{ errorMessage }}</p>
     <div v-else class="table">
       <table>
@@ -56,6 +57,7 @@ export default {
   },
   methods: {
     async getHighScores() {
+      if (this.highScores.length < 0) return
       try { 
         await ScoreService.getHighScores(this.activeRegions).then((response) => {
           this.highScores = response.data;
