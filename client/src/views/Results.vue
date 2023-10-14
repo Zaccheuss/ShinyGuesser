@@ -54,9 +54,15 @@ export default {
           regions: this.getRegions()
         }
 
-        ScoreSerivce.postHighScore(newHiscore).then(() => {
+        try {
+          ScoreSerivce.postHighScore(newHiscore).then(() => {
+            this.$router.push( {name: "Home"} )
+          })
+        } catch (e) {
+          console.error("Problem posting high score", e)
+        } finally {
           this.$router.push( {name: "Home"} )
-        })
+        }
       } else {
         this.$router.push( {name: "Home"} )
       }
