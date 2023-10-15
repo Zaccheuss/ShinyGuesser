@@ -62,6 +62,7 @@ export default {
         await ScoreService.getHighScores(this.activeRegions).then((response) => {
           this.highScores = response.data;
         });
+        this.errorMessage = undefined
       } catch (e) {
         this.errorMessage = 'There was an error loading the high scores'
         console.error('Problem getting high scores', e)
