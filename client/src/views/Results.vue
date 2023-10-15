@@ -15,11 +15,14 @@
               <b-input v-model="highScoreName"></b-input>
           </b-field>
         </div>
-        <div class="field-subtext" v-if="saveHighScorePref">Score will be saved automatically upon returning Home</div>
+        <div v-if="saveHighScorePref">
+          <div class="field-subtext error" v-if="error">Name must not be empty</div> 
+          <div class="field-subtext" v-else>Score will be saved automatically upon returning Home</div>
+        </div>
       </div>
 
       <b-button 
-        v-on:click="logHighScore(); updateHighScoreName()"
+        v-on:click="logHighScore()"
       >Back to Start</b-button>
   </div>
 </template>
@@ -32,7 +35,8 @@ export default {
   data() {
     return {
       highScoreName: "",
-      saveHighScorePref: true
+      saveHighScorePref: true,
+      error: false
     }
   },
   created() {
@@ -45,7 +49,12 @@ export default {
   },
   methods: {
     logHighScore() {
+      this.error = false
       if (this.saveHighScorePref) {
+        if (this.highScoreName === '') {
+          this.error = true
+          return
+        }
         const newHiscore =
         {
           name: this.highScoreName,
@@ -65,14 +74,13 @@ export default {
         }
       } else {
         this.$router.push( {name: "Home"} )
-      }
-    },
-    updateHighScoreName() {
-      if (this.saveHighScorePref) {
-        localStorage.setItem("highScoreName", JSON.stringify(this.highScoreName));
-        localStorage.setItem("saveHighScorePref", JSON.stringify(this.saveHighScorePref));
-        this.$store.commit("highScoreName", this.highScoreName);
-        this.$store.commit("saveHighScorePref", this.saveHighScorePref);
+
+        if (this.saveHighScorePref) {
+          localStorage.setItem("highScoreName", JSON.stringify(this.highScoreName));
+          localStorage.setItem("saveHighScorePref", JSON.stringify(this.saveHighScorePref));
+          this.$store.commit("highScoreName", this.highScoreName);
+          this.$store.commit("saveHighScorePref", this.saveHighScorePref);
+        }
       }
     },
     getRegions() {
@@ -113,6 +121,10 @@ button {
 .field-subtext {
   color: var(--text-secondary-color);
   size: 0.9em;
+}
+
+.error {
+  color: red;
 }
 
 </style>
