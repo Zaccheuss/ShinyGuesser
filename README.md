@@ -17,7 +17,7 @@ One of the more difficult problems I encountered was determining how to load the
 Right now I am making an API call when the game starts to get information for the 50 pokemon I need to show (10 rounds with 5 pokemon to guess each round) and storing this in a variable. I had considered storing the sprites on the client's machine but that seemed a litle irresponsible with the client's storage so I am currently making HTTP requests for the sprites each round. This works but users with slower internet connections may experience slow loading times. 
 
 ## Screen Shots
-![Screenshot of the main game screen](/2024-06-06 21_57_35-Shiny Finder.png)
+![Screenshot of the main game screen](https://raw.githubusercontent.com/Zaccheuss/ShinyGuesser/main/2024-06-06%2021_57_35-Shiny%20Finder.png)
 
 ## Running the site locally
 ```
