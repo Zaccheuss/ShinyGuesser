@@ -14,7 +14,7 @@ Although the main functionality of the site works, there are still some things I
 
 One of the more difficult problems I encountered was determining how to load the pokemon sprites and when to make the API call to get the sprite and pokemon information. 
 
-Right now I am making an API call when the game starts to get information for the 50 pokemon I need to show (10 rounds with 5 pokemon to guess each round) and storing this in a variable. I had considered storing the sprites on the client's machine but that seemed a litle irresponsible with the client's storage so I am currently making HTTP requests for the sprites each round. This works but user's with slower internet connections may experience slow loading times. 
+Right now I am making an API call when the game starts to get information for the 50 pokemon I need to show (10 rounds with 5 pokemon to guess each round) and storing this in a variable. I had considered storing the sprites on the client's machine but that seemed a litle irresponsible with the client's storage so I am currently making HTTP requests for the sprites each round. This works but users with slower internet connections may experience slow loading times. 
 
 ## Screen Shots
 ![Screenshot of the main game screen](public/readme-img-1.png)
